@@ -3133,7 +3133,7 @@ class do_JMwG {
       return null;
     }
     const AxisLockThreshold =
-      "http://localhost:" +
+      "https://gota.io/web/" +
       SERVER_PORT +
       "/cors/" +
       encodeURIComponent(this.skin);
