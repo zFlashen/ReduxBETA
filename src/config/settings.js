@@ -28,7 +28,7 @@ const Await_rIVkJM9bc47 = for_zZER9bc46(
   ],
   0xf
 );
-debugger;
+
 export const firebaseConfig = {
   apiKey: "AIzaSyCmYFIIazBPyg5goqvPb-7uA6W9-4TVqEM",
   authDomain: "accounts.gota.io",
