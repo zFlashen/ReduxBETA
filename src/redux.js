@@ -3132,11 +3132,8 @@ class do_JMwG {
     if (!this.skin) {
       return null;
     }
-    const AxisLockThreshold =
-      "https://gota.io/web/" +
-      SERVER_PORT +
-      "/cors/" +
-      encodeURIComponent(this.skin);
+    // Используем прямую ссылку
+    const AxisLockThreshold = this.skin;
     switch (RegExp_yFv[AxisLockThreshold]) {
       case undefined:
         RegExp_yFv[AxisLockThreshold] = SKIN_LOAD_STATUS.LOADING;
