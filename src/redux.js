@@ -8025,7 +8025,6 @@ function finally_qFsWFdtea9d1_Ctx(
     "#menu-whisper",
     "#menu-block",
     "#menu-profile",
-    "menu-track"
   );
   readUtf16(messageColors.spectate && !SKIN_LOAD_STATUS, "#menu-spectate");
   if (PlayerState) {
