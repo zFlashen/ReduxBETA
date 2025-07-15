@@ -8024,7 +8024,8 @@ function finally_qFsWFdtea9d1_Ctx(
     !SKIN_LOAD_STATUS && !MassDisplayType,
     "#menu-whisper",
     "#menu-block",
-    "#menu-profile"
+    "#menu-profile",
+    "menu-track"
   );
   readUtf16(messageColors.spectate && !SKIN_LOAD_STATUS, "#menu-spectate");
   if (PlayerState) {
