@@ -5390,6 +5390,29 @@ async function NeweNPdm() {
   setTimeout(() => {
     jQueryLzNd.open("aboutModal");
   }, 500);
+
+  // Добавляем обработчик для кнопки #menu-track
+  $("#menu-track").on("click", function (...AxisLockThreshold) {
+    AxisLockThreshold.length = 0;
+    const selectedId = djUgiSea98e_Fn.data("selected");
+    // Поиск игрока по id (ищем в глобальном реестре игроков)
+    let player = null;
+    if (typeof zLCuf8c !== 'undefined' && zLCuf8c.getPlayer) {
+        player = zLCuf8c.getPlayer(Number(selectedId));
+    }
+    if (player) {
+        // Попытка получить количество клеток (cells/myCells)
+        let cellCount = 0;
+        if (player.myCells && typeof player.myCells.size === 'number') {
+            cellCount = player.myCells.size;
+        } else if (player.cells && typeof player.cells.length === 'number') {
+            cellCount = player.cells.length;
+        }
+        console.log(`TRACK: id=${player.id}, name=${player.name}, cells=${cellCount}`);
+    } else {
+        console.log(`TRACK: игрок с id=${selectedId} не найден.`);
+    }
+  });
 }
 function qKCwea9bc_div(...AxisLockThreshold) {
   Object$kDcGWUY(baseCellSize, 2);
@@ -9145,7 +9168,8 @@ function GnQwWt(...AxisLockThreshold) {
       (AxisLockThreshold[0] - Callback$wD5ea95e_Ctx) *
       combinedCameraDistanceThreshold;
     svqea95f_bool +=
-      (AxisLockThreshold[1] - svqea95f_bool) * combinedCameraDistanceThreshold;
+      (AxisLockThreshold[1] - svqea95f_bool) *
+      combinedCameraDistanceThreshold;
     yZBjeytPea960_Cb +=
       (AxisLockThreshold[2] - yZBjeytPea960_Cb) * baseCellSize;
   } else {
