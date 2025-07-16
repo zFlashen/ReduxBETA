@@ -136,7 +136,6 @@ var AhC4E4RR;
 var Array_eUa8SZ3Z$ea992_Buf;
 var async_D8l9NKg;
 var PMulimorea994_str;
-var trackedPlayerId = null;
 function HelpervL9ea995_opt(
   AxisLockThreshold,
   minimapSmoothFactor,
@@ -5134,7 +5133,7 @@ async function NeweNPdm() {
     AxisLockThreshold.length = 1;
     const minimapSmoothFactor = AxisLockThreshold[0].clientX;
     const drawMinimapInterval = AxisLockThreshold[0].clientY;
-    If$sEyqKbhea93f_Exec.mouseRawX = minimapSmoothFactor;
+    If$sEyzqKbhea93f_Exec.mouseRawX = minimapSmoothFactor;
     If$sEyzqKbhea93f_Exec.mouseRawY = drawMinimapInterval;
     Str_NmyJ4kX.mouseRawX = minimapSmoothFactor;
     Str_NmyJ4kX.mouseRawY = drawMinimapInterval;
@@ -5391,8 +5390,6 @@ async function NeweNPdm() {
   setTimeout(() => {
     jQueryLzNd.open("aboutModal");
   }, 500);
-
-  // ... (rest of the code remains unchanged)
 }
 function qKCwea9bc_div(...AxisLockThreshold) {
   Object$kDcGWUY(baseCellSize, 2);
@@ -5937,12 +5934,12 @@ function qKCwea9bc_div(...AxisLockThreshold) {
   $("#menu-track").on("click", function (...AxisLockThreshold) {
     AxisLockThreshold.length = 0;
     const playerId = Number(djUgiSea98e_Fn.data("selected"));
-    trackedPlayerId = playerId;
     let player = null;
     if (typeof zLCuf8c !== 'undefined' && zLCuf8c.getPlayer) {
       player = zLCuf8c.getPlayer(playerId);
     }
     let cellsCount = 0;
+    // Найти все клетки с этим playerId
     if (typeof jQuery_hn$0_2t_ea9b2_sub !== 'undefined' && jQuery_hn$0_2t_ea9b2_sub.cells) {
       for (const cellObj of jQuery_hn$0_2t_ea9b2_sub.cells.values()) {
         if (cellObj.cell && cellObj.cell.playerId === playerId && cellObj.cell.type === 2) {
@@ -5951,6 +5948,7 @@ function qKCwea9bc_div(...AxisLockThreshold) {
       }
     }
     if (player) {
+      // Показать панель и заполнить данными
       $("#tracked-score-panel").show();
       $("#trackedId").text(playerId);
       $("#trackedName").text(player.name);
@@ -5964,32 +5962,6 @@ function qKCwea9bc_div(...AxisLockThreshold) {
       console.log(`TRACK: id=${playerId}, игрок не найден, cells=${cellsCount}`);
     }
   });
-
-  // Функция для обновления панели трекнутого игрока
-  function updateTrackedPanel() {
-    if (!trackedPlayerId || $("#tracked-score-panel").css("display") === "none") return;
-    let player = null;
-    if (typeof zLCuf8c !== 'undefined' && zLCuf8c.getPlayer) {
-      player = zLCuf8c.getPlayer(trackedPlayerId);
-    }
-    let cellsCount = 0;
-    if (typeof jQuery_hn$0_2t_ea9b2_sub !== 'undefined' && jQuery_hn$0_2t_ea9b2_sub.cells) {
-      for (const cellObj of jQuery_hn$0_2t_ea9b2_sub.cells.values()) {
-        if (cellObj.cell && cellObj.cell.playerId === trackedPlayerId && cellObj.cell.type === 2) {
-          cellsCount++;
-        }
-      }
-    }
-    $("#trackedId").text(trackedPlayerId);
-    $("#trackedCells").text(cellsCount);
-    if (player) {
-      $("#trackedName").text(player.name);
-    } else {
-      $("#trackedName").text("-");
-    }
-  }
-  setInterval(updateTrackedPanel, 500);
-
   $("#menu-profile").on("click", function (...AxisLockThreshold) {
     AxisLockThreshold.length = 0;
     AxisLockThreshold[142] = djUgiSea98e_Fn.data("selected");
