@@ -5133,7 +5133,7 @@ async function NeweNPdm() {
     AxisLockThreshold.length = 1;
     const minimapSmoothFactor = AxisLockThreshold[0].clientX;
     const drawMinimapInterval = AxisLockThreshold[0].clientY;
-    If$sEyzqKbhea93f_Exec.mouseRawX = minimapSmoothFactor;
+    If$sEyqKbhea93f_Exec.mouseRawX = minimapSmoothFactor;
     If$sEyzqKbhea93f_Exec.mouseRawY = drawMinimapInterval;
     Str_NmyJ4kX.mouseRawX = minimapSmoothFactor;
     Str_NmyJ4kX.mouseRawY = drawMinimapInterval;
@@ -5938,28 +5938,36 @@ function qKCwea9bc_div(...AxisLockThreshold) {
     if (typeof zLCuf8c !== 'undefined' && zLCuf8c.getPlayer) {
       player = zLCuf8c.getPlayer(playerId);
     }
-    let cellsCount = 0;
-    // Найти все клетки с этим playerId
-    if (typeof jQuery_hn$0_2t_ea9b2_sub !== 'undefined' && jQuery_hn$0_2t_ea9b2_sub.cells) {
-      for (const cellObj of jQuery_hn$0_2t_ea9b2_sub.cells.values()) {
-        if (cellObj.cell && cellObj.cell.playerId === playerId && cellObj.cell.type === 2) {
-          cellsCount++;
-        }
-      }
+
+    // Если уже трекаем — остановить
+    if (window.reduxTrackInterval) {
+      clearInterval(window.reduxTrackInterval);
+      window.reduxTrackInterval = null;
+      $("#tracked-score-panel").hide();
+      return;
     }
+
     if (player) {
-      // Показать панель и заполнить данными
       $("#tracked-score-panel").show();
-      $("#trackedId").text(playerId);
-      $("#trackedName").text(player.name);
-      $("#trackedCells").text(cellsCount);
-      console.log(`TRACK: id=${playerId}, name=${player.name}, cells=${cellsCount}`);
+      window.reduxTrackInterval = setInterval(function() {
+        let cellsCount = 0;
+        // Считаем клетки игрока по playerId
+        if (typeof jQuery_hn$0_2t_ea9b2_sub !== 'undefined' && jQuery_hn$0_2t_ea9b2_sub.cells) {
+          for (const cellObj of jQuery_hn$0_2t_ea9b2_sub.cells.values()) {
+            if (cellObj.cell && cellObj.cell.playerId === playerId && cellObj.cell.type === 2) {
+              cellsCount++;
+            }
+          }
+        }
+        $("#trackedId").text(playerId);
+        $("#trackedName").text(player.name);
+        $("#trackedCells").text(cellsCount);
+      }, 100);
     } else {
       $("#tracked-score-panel").show();
       $("#trackedId").text(playerId);
       $("#trackedName").text("-");
-      $("#trackedCells").text(cellsCount);
-      console.log(`TRACK: id=${playerId}, игрок не найден, cells=${cellsCount}`);
+      $("#trackedCells").text("0");
     }
   });
   $("#menu-profile").on("click", function (...AxisLockThreshold) {
