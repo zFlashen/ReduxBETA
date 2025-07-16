@@ -5394,7 +5394,6 @@ async function NeweNPdm() {
   $("#cCustomCellColor").prop("checked", Mao5huZea938_run.cCustomCellColor);
   $("#cCustomCellColor").on("change", function () {
     Mao5huZea938_run.cCustomCellColor = this.checked;
-    // Можно добавить сохранение в localStorage, если нужно
   });
 }
 function qKCwea9bc_div(...AxisLockThreshold) {
