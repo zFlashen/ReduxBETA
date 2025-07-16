@@ -5133,7 +5133,7 @@ async function NeweNPdm() {
     AxisLockThreshold.length = 1;
     const minimapSmoothFactor = AxisLockThreshold[0].clientX;
     const drawMinimapInterval = AxisLockThreshold[0].clientY;
-    If$sEyqKbhea93f_Exec.mouseRawX = minimapSmoothFactor;
+    If$sEyzqKbhea93f_Exec.mouseRawX = minimapSmoothFactor;
     If$sEyzqKbhea93f_Exec.mouseRawY = drawMinimapInterval;
     Str_NmyJ4kX.mouseRawX = minimapSmoothFactor;
     Str_NmyJ4kX.mouseRawY = drawMinimapInterval;
