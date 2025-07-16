@@ -8012,6 +8012,7 @@ function finally_qFsWFdtea9d1_Ctx(
     );
   };
   $(".context-action").hide();
+  $("#menu-track").show();
   readUtf16(!MassDisplayType, "#menu-profile", "#menu-invite");
   readUtf16(
     SKIN_LOAD_STATUS && messageColors.party.length,
@@ -8022,8 +8023,7 @@ function finally_qFsWFdtea9d1_Ctx(
     !SKIN_LOAD_STATUS && !MassDisplayType,
     "#menu-whisper",
     "#menu-block",
-    "#menu-profile",
-    "#menu-track"
+    "#menu-profile"
   );
   readUtf16(messageColors.spectate && !SKIN_LOAD_STATUS, "#menu-spectate");
   if (PlayerState) {
@@ -10361,6 +10361,7 @@ function y2jX$eaa13_Idx(...AxisLockThreshold) {
     $("#soloTrickModeManual").attr("variant", "primary");
   }
 }
+
 document.addEventListener(
   "click",
   Object$kDcGWUY(function (...AxisLockThreshold) {
@@ -10376,6 +10377,7 @@ document.addEventListener(
     }
   })
 );
+
 BigIntLsuea9cc_ex(true, "Gota Redux");
 document.body.addEventListener(
   "dragstart",
