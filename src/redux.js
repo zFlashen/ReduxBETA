@@ -1952,7 +1952,7 @@ class XHR_v4dBj2ayea9a5_Inst {
           if (AxisLockThreshold.id === this.playerId) {
             combinedInterpSpeed =
               DEFAULT$HB0T_ea93b_Status["--n-color-text-highlight"];
-          } else if (this.partyIds.hasOwnProperty(AxisLockThreshold.id)) {
+          } else if (this.partyIds[AxisLockThreshold.id] != null) {
             combinedInterpSpeed =
               DEFAULT$HB0T_ea93b_Status["--n-color-text-info"];
           }
@@ -2766,20 +2766,8 @@ class WeakMaplS3ea9a6 {
     const initializeNord = Math.max(MassDisplayType, 0.16) * 4;
     this.nameSprite.visible = PlayerState;
     if (PlayerState) {
-      let nameColor;
-      if (Mao5huZea938_run.cRainbowName && readAscii) {
-        // Rainbow-эффект для ника
-        const t = performance.now() / 1000;
-        const r = Math.floor(128 + 127 * Math.sin(t));
-        const g = Math.floor(128 + 127 * Math.sin(t + 2));
-        const b = Math.floor(128 + 127 * Math.sin(t + 4));
-        nameColor = `#${((1 << 24) | (r << 16) | (g << 8) | b).toString(16).slice(1)}`;
-      } else {
-        nameColor = combinedCameraDistanceThreshold.nameColor || "#FFFFFF";
-      }
       const injectShadowStyle = Dom34uUv8$ea9b1_bool.getNameTexture(
-        combinedCameraDistanceThreshold,
-        nameColor
+        combinedCameraDistanceThreshold
       );
       if (this.nameSprite.texture !== injectShadowStyle) {
         this.nameSprite.texture = injectShadowStyle;
@@ -5424,15 +5412,6 @@ async function NeweNPdm() {
     Mao5huZea938_run.cRainbowCell = this.checked;
     // Можно добавить сохранение в localStorage, если нужно
   });
-
-  if (typeof Mao5huZea938_run.cRainbowName === 'undefined') {
-    Mao5huZea938_run.cRainbowName = false;
-  }
-  $("#cRainbowName").prop("checked", Mao5huZea938_run.cRainbowName);
-  $("#cRainbowName").on("change", function () {
-    Mao5huZea938_run.cRainbowName = this.checked;
-    // Можно добавить сохранение в localStorage, если нужно
-  });
 }
 function qKCwea9bc_div(...AxisLockThreshold) {
   Object$kDcGWUY(baseCellSize, 2);
@@ -5976,11 +5955,50 @@ function qKCwea9bc_div(...AxisLockThreshold) {
   });
   $("#menu-track").on("click", function (...AxisLockThreshold) {
     AxisLockThreshold.length = 0;
-    AxisLockThreshold[43] = djUgiSea98e_Fn.data("selected");
-    if (AxisLockThreshold[43] >= 0) {
-      faCUfKea9fb_add().sendPacket(
-        VoidGBYH.sendSpectate(AxisLockThreshold[43])
-      );
+    const playerId = Number(djUgiSea98e_Fn.data("selected"));
+    let player = null;
+    if (typeof zLCuf8c !== 'undefined' && zLCuf8c.getPlayer) {
+      player = zLCuf8c.getPlayer(playerId);
+    }
+
+    // Если уже трекаем — остановить
+    if (window.reduxTrackInterval) {
+      clearInterval(window.reduxTrackInterval);
+      window.reduxTrackInterval = null;
+      $("#tracked-score-panel").hide();
+      return;
+    }
+
+    if (player) {
+      $("#tracked-score-panel").show();
+      let lastCellsCount = 0;
+      window.reduxTrackInterval = setInterval(function() {
+        let cellsCount = 0;
+        // Считаем клетки игрока по playerId
+        if (typeof jQuery_hn$0_2t_ea9b2_sub !== 'undefined' && jQuery_hn$0_2t_ea9b2_sub.cells) {
+          for (const cellObj of jQuery_hn$0_2t_ea9b2_sub.cells.values()) {
+            if (cellObj.cell && cellObj.cell.playerId === playerId && cellObj.cell.type === 2) {
+              cellsCount++;
+            }
+          }
+        }
+        $("#trackedId").text(playerId);
+        $("#trackedName").text(player.name);
+        $("#trackedCells").text(cellsCount);
+
+        // Если стало ровно 8 клеток и раньше не было 8 — два нажатия на пробел
+        if (cellsCount === 8 && lastCellsCount !== 8) {
+          const evt = new KeyboardEvent('keydown', { key: ' ', code: 'Space', keyCode: 32, which: 32, bubbles: true });
+          document.dispatchEvent(evt);
+          setTimeout(() => document.dispatchEvent(evt), 50);
+        }
+        lastCellsCount = cellsCount;
+      }, 100);
+    } else {
+      $("#tracked-score-panel").show();
+      $("#trackedId").text(playerId);
+      $("#trackedName").text("-");
+      $("#trackedCells").text("0");
     }
   });
   $("#menu-profile").on("click", function (...AxisLockThreshold) {
