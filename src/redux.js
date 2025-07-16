@@ -5948,8 +5948,17 @@ function qKCwea9bc_div(...AxisLockThreshold) {
       }
     }
     if (player) {
+      // Показать панель и заполнить данными
+      $("#tracked-score-panel").show();
+      $("#trackedId").text(playerId);
+      $("#trackedName").text(player.name);
+      $("#trackedCells").text(cellsCount);
       console.log(`TRACK: id=${playerId}, name=${player.name}, cells=${cellsCount}`);
     } else {
+      $("#tracked-score-panel").show();
+      $("#trackedId").text(playerId);
+      $("#trackedName").text("-");
+      $("#trackedCells").text(cellsCount);
       console.log(`TRACK: id=${playerId}, игрок не найден, cells=${cellsCount}`);
     }
   });
