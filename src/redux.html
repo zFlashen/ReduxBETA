@@ -144,16 +144,17 @@
     <div class=hud-panel id=app-container>
         <div class=top-left>
             <div class="interface-color ui-pane" id=score-panel>
-                <p id=pMass>Mass: <span>0</span>
-                    <p id=pScore>Score: <span>0</span>
-                        <p id=pCells>Cells: <span>0/16</span></div>
-            <div class="interface-color ui-pane" id="tracked-score-panel" style="display:none; margin-top:10px;">
-                <div style="display: flex; gap: 20px; align-items: center;">
-                    <p>Tracked ID: <span id="trackedId">-</span></span>
-                        <p>Tracked Name: <span id="trackedName">-</span></span>
-                            <p>Tracked Cells: <span id="trackedCells">-</span></span>
-                </div>
+                <p id=pMass>Mass: <span>0</span></p>
+                <p id=pScore>Score: <span>0</span></p>
+                <p id=pCells>Cells: <span>0/16</span></p>
             </div>
+            <div class="interface-color ui-pane" id="tracked-score-panel" style="display:none; margin-top:10px;">
+                <p style="display: inline-block; margin-right: 20px;">Tracked ID: <span id="trackedId">-</span></p>
+                <p style="display: inline-block; margin-right: 20px;">Tracked Name: <span id="trackedName">-</span></p>
+                <p style="display: inline-block;">Tracked Cells: <span id="trackedCells">-</span></p>
+            </div>
+        </div>
+    </div>
             <div class=party-panel id=partyPanel></div>
             <nord-button id=leaveParty variant=dashed expand size=s>Leave Party</nord-button>
             <div id=systemChat style=font-size:12px;color:var(--n-color-text-weaker)></div>
