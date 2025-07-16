@@ -5971,7 +5971,6 @@ function qKCwea9bc_div(...AxisLockThreshold) {
 
     if (player) {
       $("#tracked-score-panel").show();
-      let lastCellsCount = 0;
       window.reduxTrackInterval = setInterval(function() {
         let cellsCount = 0;
         // Считаем клетки игрока по playerId
@@ -5985,14 +5984,6 @@ function qKCwea9bc_div(...AxisLockThreshold) {
         $("#trackedId").text(playerId);
         $("#trackedName").text(player.name);
         $("#trackedCells").text(cellsCount);
-
-        // Если стало ровно 8 клеток и раньше не было 8 — два нажатия на пробел
-        if (cellsCount === 8 && lastCellsCount !== 8) {
-          const evt = new KeyboardEvent('keydown', { key: ' ', code: 'Space', keyCode: 32, which: 32, bubbles: true });
-          document.dispatchEvent(evt);
-          setTimeout(() => document.dispatchEvent(evt), 50);
-        }
-        lastCellsCount = cellsCount;
       }, 100);
     } else {
       $("#tracked-score-panel").show();
