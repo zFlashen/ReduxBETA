@@ -136,6 +136,7 @@ var AhC4E4RR;
 var Array_eUa8SZ3Z$ea992_Buf;
 var async_D8l9NKg;
 var PMulimorea994_str;
+var trackedPlayerId = null;
 function HelpervL9ea995_opt(
   AxisLockThreshold,
   minimapSmoothFactor,
