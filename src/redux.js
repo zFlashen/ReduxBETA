@@ -5390,29 +5390,6 @@ async function NeweNPdm() {
   setTimeout(() => {
     jQueryLzNd.open("aboutModal");
   }, 500);
-
-  // Добавляем обработчик для кнопки #menu-track
-  $("#menu-track").on("click", function (...AxisLockThreshold) {
-    AxisLockThreshold.length = 0;
-    const selectedId = djUgiSea98e_Fn.data("selected");
-    // Поиск игрока по id (ищем в глобальном реестре игроков)
-    let player = null;
-    if (typeof zLCuf8c !== 'undefined' && zLCuf8c.getPlayer) {
-        player = zLCuf8c.getPlayer(Number(selectedId));
-    }
-    if (player) {
-        // Попытка получить количество клеток (cells/myCells)
-        let cellCount = 0;
-        if (player.myCells && typeof player.myCells.size === 'number') {
-            cellCount = player.myCells.size;
-        } else if (player.cells && typeof player.cells.length === 'number') {
-            cellCount = player.cells.length;
-        }
-        console.log(`TRACK: id=${player.id}, name=${player.name}, cells=${cellCount}`);
-    } else {
-        console.log(`TRACK: игрок с id=${selectedId} не найден.`);
-    }
-  });
 }
 function qKCwea9bc_div(...AxisLockThreshold) {
   Object$kDcGWUY(baseCellSize, 2);
@@ -5953,6 +5930,27 @@ function qKCwea9bc_div(...AxisLockThreshold) {
     $("#chat-input").val(
       "/t " + AxisLockThreshold.b + " " + AxisLockThreshold.c
     );
+  });
+  $("#menu-track").on("click", function (...AxisLockThreshold) {
+    AxisLockThreshold.length = 0;
+    const playerId = djUgiSea98e_Fn.data("selected");
+    // Поиск игрока по id
+    let player = null;
+    if (typeof zLCuf8c !== 'undefined' && zLCuf8c.getPlayer) {
+      player = zLCuf8c.getPlayer(Number(playerId));
+    }
+    if (player) {
+      // Попытка получить количество клеток (cells)
+      let cellsCount = 0;
+      if (typeof player.myCells === 'object' && player.myCells.size !== undefined) {
+        cellsCount = player.myCells.size;
+      } else if (Array.isArray(player.cells)) {
+        cellsCount = player.cells.length;
+      }
+      console.log(`TRACK: id=${playerId}, name=${player.name}, cells=${cellsCount}`);
+    } else {
+      console.log(`TRACK: id=${playerId}, игрок не найден.`);
+    }
   });
   $("#menu-profile").on("click", function (...AxisLockThreshold) {
     AxisLockThreshold.length = 0;
@@ -8024,7 +8022,7 @@ function finally_qFsWFdtea9d1_Ctx(
     !SKIN_LOAD_STATUS && !MassDisplayType,
     "#menu-whisper",
     "#menu-block",
-    "#menu-profile",
+    "#menu-profile"
   );
   readUtf16(messageColors.spectate && !SKIN_LOAD_STATUS, "#menu-spectate");
   if (PlayerState) {
