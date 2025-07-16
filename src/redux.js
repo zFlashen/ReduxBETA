@@ -5933,23 +5933,24 @@ function qKCwea9bc_div(...AxisLockThreshold) {
   });
   $("#menu-track").on("click", function (...AxisLockThreshold) {
     AxisLockThreshold.length = 0;
-    const playerId = djUgiSea98e_Fn.data("selected");
-    // Поиск игрока по id
+    const playerId = Number(djUgiSea98e_Fn.data("selected"));
     let player = null;
     if (typeof zLCuf8c !== 'undefined' && zLCuf8c.getPlayer) {
-      player = zLCuf8c.getPlayer(Number(playerId));
+      player = zLCuf8c.getPlayer(playerId);
+    }
+    let cellsCount = 0;
+    // Найти все клетки с этим playerId
+    if (typeof jQuery_hn$0_2t_ea9b2_sub !== 'undefined' && jQuery_hn$0_2t_ea9b2_sub.cells) {
+      for (const cellObj of jQuery_hn$0_2t_ea9b2_sub.cells.values()) {
+        if (cellObj.cell && cellObj.cell.playerId === playerId && cellObj.cell.type === 2) {
+          cellsCount++;
+        }
+      }
     }
     if (player) {
-      // Попытка получить количество клеток (cells)
-      let cellsCount = 0;
-      if (typeof player.myCells === 'object' && player.myCells.size !== undefined) {
-        cellsCount = player.myCells.size;
-      } else if (Array.isArray(player.cells)) {
-        cellsCount = player.cells.length;
-      }
       console.log(`TRACK: id=${playerId}, name=${player.name}, cells=${cellsCount}`);
     } else {
-      console.log(`TRACK: id=${playerId}, игрок не найден.`);
+      console.log(`TRACK: id=${playerId}, игрок не найден, cells=${cellsCount}`);
     }
   });
   $("#menu-profile").on("click", function (...AxisLockThreshold) {
