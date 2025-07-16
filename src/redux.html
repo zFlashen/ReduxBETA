@@ -148,9 +148,11 @@
                     <p id=pScore>Score: <span>0</span>
                         <p id=pCells>Cells: <span>0/16</span></div>
             <div class="interface-color ui-pane" id="tracked-score-panel" style="display:none; margin-top:10px;">
-                <p>Tracked ID: <span id="trackedId">-</span></p>
-                <p>Tracked Name: <span id="trackedName">-</span></p>
-                <p>Tracked Cells: <span id="trackedCells">-</span></p>
+                <div style="display: flex; gap: 20px; align-items: center;">
+                    <span>Tracked ID: <span id="trackedId">-</span></span>
+                    <span>Tracked Name: <span id="trackedName">-</span></span>
+                    <span>Tracked Cells: <span id="trackedCells">-</span></span>
+                </div>
             </div>
             <div class=party-panel id=partyPanel></div>
             <nord-button id=leaveParty variant=dashed expand size=s>Leave Party</nord-button>
