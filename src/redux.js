@@ -5390,6 +5390,12 @@ async function NeweNPdm() {
   setTimeout(() => {
     jQueryLzNd.open("aboutModal");
   }, 500);
+
+  $("#cCustomCellColor").prop("checked", Mao5huZea938_run.cCustomCellColor);
+  $("#cCustomCellColor").on("change", function () {
+    Mao5huZea938_run.cCustomCellColor = this.checked;
+    // Можно добавить сохранение в localStorage, если нужно
+  });
 }
 function qKCwea9bc_div(...AxisLockThreshold) {
   Object$kDcGWUY(baseCellSize, 2);
