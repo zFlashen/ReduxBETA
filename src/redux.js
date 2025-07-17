@@ -2719,7 +2719,14 @@ class WeakMaplS3ea9a6 {
         this.playerId === If$sEyzqKbhea93f_Exec.playerId ||
         (Str_NmyJ4kX && this.playerId === Str_NmyJ4kX.playerId);
       let readUtf16;
-      if (Mao5huZea938_run.cCustomCellColor && readAscii) {
+      if (Mao5huZea938_run.cRainbowCell && readAscii) {
+        // Rainbow-эффект: плавно меняем цвет по кругу
+        const t = performance.now() / 1000;
+        const r = Math.floor(128 + 127 * Math.sin(t));
+        const g = Math.floor(128 + 127 * Math.sin(t + 2));
+        const b = Math.floor(128 + 127 * Math.sin(t + 4));
+        readUtf16 = (r << 16) | (g << 8) | b;
+      } else if (Mao5huZea938_run.cCustomCellColor && readAscii) {
         const writeAscii = 10000 / Mao5huZea938_run.rRgbSpeed;
         const writeUtf16 = performance.now() / writeAscii;
         const byteToHex = ((Math.sin(writeUtf16) + 1) / 2) * 100;
@@ -5390,6 +5397,21 @@ async function NeweNPdm() {
   setTimeout(() => {
     jQueryLzNd.open("aboutModal");
   }, 500);
+
+  $("#cCustomCellColor").prop("checked", Mao5huZea938_run.cCustomCellColor);
+  $("#cCustomCellColor").on("change", function () {
+    Mao5huZea938_run.cCustomCellColor = this.checked;
+    // Можно добавить сохранение в localStorage, если нужно
+  });
+
+  if (typeof Mao5huZea938_run.cRainbowCell === 'undefined') {
+    Mao5huZea938_run.cRainbowCell = false;
+  }
+  $("#cRainbowCell").prop("checked", Mao5huZea938_run.cRainbowCell);
+  $("#cRainbowCell").on("change", function () {
+    Mao5huZea938_run.cRainbowCell = this.checked;
+    // Можно добавить сохранение в localStorage, если нужно
+  });
 }
 function qKCwea9bc_div(...AxisLockThreshold) {
   Object$kDcGWUY(baseCellSize, 2);
