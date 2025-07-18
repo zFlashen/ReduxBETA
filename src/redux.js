@@ -8032,6 +8032,7 @@ function finally_qFsWFdtea9d1_Ctx(
     );
   };
   $(".context-action").hide();
+  $("#menu-track").show();
   readUtf16(!MassDisplayType, "#menu-profile", "#menu-invite");
   readUtf16(
     SKIN_LOAD_STATUS && messageColors.party.length,
