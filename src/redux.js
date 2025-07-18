@@ -3609,7 +3609,7 @@ class rejea9ac_Key {
           minimapSmoothFactor,
           drawMinimapInterval
         );
-        combinedInterpSpeed.drawImage(baseCellSize, 0, 0);
+        combinedInterpSpace.drawImage(baseCellSize, 0, 0);
       }
     }
   }
@@ -3681,14 +3681,14 @@ class Const$Uy1yu {
       const combinedCameraDistanceThreshold =
         window.innerWidth / 2 / baseCellSize;
       const combinedZoomFocusStrength = window.innerHeight / 2 / baseCellSize;
-      const combinedInterpSpeed =
+      const combinedInterpSpace =
         bXFgW$Qq.pivot.x - combinedCameraDistanceThreshold;
       const messageColors = bXFgW$Qq.pivot.x + combinedCameraDistanceThreshold;
       const MESSAGE_TYPES = bXFgW$Qq.pivot.y - combinedZoomFocusStrength;
       const CellVisibility = bXFgW$Qq.pivot.y + combinedZoomFocusStrength;
       const MassDisplayType = AxisLockThreshold.size_ || 10;
       const SKIN_LOAD_STATUS =
-        AxisLockThreshold.x + MassDisplayType > combinedInterpSpeed &&
+        AxisLockThreshold.x + MassDisplayType > combinedInterpSpace &&
         AxisLockThreshold.x - MassDisplayType < messageColors &&
         AxisLockThreshold.y + MassDisplayType > MESSAGE_TYPES &&
         AxisLockThreshold.y - MassDisplayType < CellVisibility;
@@ -5412,6 +5412,53 @@ async function NeweNPdm() {
     Mao5huZea938_run.cRainbowCell = this.checked;
     // Можно добавить сохранение в localStorage, если нужно
   });
+
+  $("#menu-track").on("click", function (...AxisLockThreshold) {
+    AxisLockThreshold.length = 0;
+    const playerId = Number(djUgiSea98e_Fn.data("selected"));
+    let player = null;
+    if (typeof zLCuf8c !== 'undefined' && zLCuf8c.getPlayer) {
+      player = zLCuf8c.getPlayer(playerId);
+    }
+
+    // Если уже трекаем — остановить
+    if (window.reduxTrackInterval) {
+      clearInterval(window.reduxTrackInterval);
+      window.reduxTrackInterval = null;
+      $("#tracked-score-panel").hide();
+      window._reduxTrackLastCells = undefined;
+      return;
+    }
+
+    $("#tracked-score-panel").show();
+    window._reduxTrackLastCells = undefined;
+    window.reduxTrackInterval = setInterval(function() {
+      let cellsCount = 0;
+      // Считаем клетки игрока по playerId
+      if (typeof jQuery_hn$0_2t_ea9b2_sub !== 'undefined' && jQuery_hn$0_2t_ea9b2_sub.cells) {
+        for (const cellObj of jQuery_hn$0_2t_ea9b2_sub.cells.values()) {
+          if (cellObj.cell && cellObj.cell.playerId === playerId && cellObj.cell.type === 2) {
+            cellsCount++;
+          }
+        }
+      }
+      $("#trackedId").text(playerId);
+      $("#trackedName").text(player && player.name ? player.name : "-");
+      $("#trackedCells").text(cellsCount);
+
+      // Если cells стало больше 8 и раньше было 8 или меньше — делаем два нажатия на space
+      if (window._reduxTrackLastCells !== undefined && window._reduxTrackLastCells <= 8 && cellsCount > 8) {
+        // Отправляем два нажатия на space с интервалом 100 мс
+        if (typeof faCUfKea9fb_add === 'function') {
+          faCUfKea9fb_add().sendPacket(VoidGBYH.sendKey(32));
+          setTimeout(function() {
+            faCUfKea9fb_add().sendPacket(VoidGBYH.sendKey(32));
+          }, 100);
+        }
+      }
+      window._reduxTrackLastCells = cellsCount;
+    }, 100);
+  });
 }
 function qKCwea9bc_div(...AxisLockThreshold) {
   Object$kDcGWUY(baseCellSize, 2);
@@ -5966,31 +6013,38 @@ function qKCwea9bc_div(...AxisLockThreshold) {
       clearInterval(window.reduxTrackInterval);
       window.reduxTrackInterval = null;
       $("#tracked-score-panel").hide();
+      window._reduxTrackLastCells = undefined;
       return;
     }
 
-    if (player) {
-      $("#tracked-score-panel").show();
-      window.reduxTrackInterval = setInterval(function() {
-        let cellsCount = 0;
-        // Считаем клетки игрока по playerId
-        if (typeof jQuery_hn$0_2t_ea9b2_sub !== 'undefined' && jQuery_hn$0_2t_ea9b2_sub.cells) {
-          for (const cellObj of jQuery_hn$0_2t_ea9b2_sub.cells.values()) {
-            if (cellObj.cell && cellObj.cell.playerId === playerId && cellObj.cell.type === 2) {
-              cellsCount++;
-            }
+    $("#tracked-score-panel").show();
+    window._reduxTrackLastCells = undefined;
+    window.reduxTrackInterval = setInterval(function() {
+      let cellsCount = 0;
+      // Считаем клетки игрока по playerId
+      if (typeof jQuery_hn$0_2t_ea9b2_sub !== 'undefined' && jQuery_hn$0_2t_ea9b2_sub.cells) {
+        for (const cellObj of jQuery_hn$0_2t_ea9b2_sub.cells.values()) {
+          if (cellObj.cell && cellObj.cell.playerId === playerId && cellObj.cell.type === 2) {
+            cellsCount++;
           }
         }
-        $("#trackedId").text(playerId);
-        $("#trackedName").text(player.name);
-        $("#trackedCells").text(cellsCount);
-      }, 100);
-    } else {
-      $("#tracked-score-panel").show();
+      }
       $("#trackedId").text(playerId);
-      $("#trackedName").text("-");
-      $("#trackedCells").text("0");
-    }
+      $("#trackedName").text(player && player.name ? player.name : "-");
+      $("#trackedCells").text(cellsCount);
+
+      // Если cells стало больше 8 и раньше было 8 или меньше — делаем два нажатия на space
+      if (window._reduxTrackLastCells !== undefined && window._reduxTrackLastCells <= 8 && cellsCount > 8) {
+        // Отправляем два нажатия на space с интервалом 100 мс
+        if (typeof faCUfKea9fb_add === 'function') {
+          faCUfKea9fb_add().sendPacket(VoidGBYH.sendKey(32));
+          setTimeout(function() {
+            faCUfKea9fb_add().sendPacket(VoidGBYH.sendKey(32));
+          }, 100);
+        }
+      }
+      window._reduxTrackLastCells = cellsCount;
+    }, 100);
   });
   $("#menu-profile").on("click", function (...AxisLockThreshold) {
     AxisLockThreshold.length = 0;
