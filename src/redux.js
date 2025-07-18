@@ -5413,23 +5413,34 @@ async function NeweNPdm() {
     // Можно добавить сохранение в localStorage, если нужно
   });
 
-  $('#menu-track').on('click', function () {
+  // Глобальный массив для хранения id отслеживаемых игроков
+  window.trackedPlayers = window.trackedPlayers || [];
+
+  function updateTrackedPlayersPanel() {
+    const list = document.getElementById('tracked-players-list');
+    if (!list) return;
+    list.innerHTML = '';
+    for (const id of window.trackedPlayers) {
+      const player = zLCuf8c.getPlayer(Number(id));
+      if (!player) continue;
+      // Подсчёт клеток по playerId среди всех клеток
+      let cellCount = 0;
+      for (const cell of jQuery_hn$0_2t_ea9b2_sub.allCells) {
+        if (cell.playerId === player.id) cellCount++;
+      }
+      const div = document.createElement('div');
+      div.textContent = `ID: ${player.id} | Name: ${player.name} | Cells: ${cellCount}`;
+      list.appendChild(div);
+    }
+  }
+
+  $('#menu-track').off('click').on('click', function () {
     const selectedId = djUgiSea98e_Fn.data('selected');
-    if (!selectedId) {
-      console.log('No player selected!');
-      return;
+    if (!selectedId) return;
+    if (!window.trackedPlayers.includes(selectedId)) {
+      window.trackedPlayers.push(selectedId);
     }
-    const player = zLCuf8c.getPlayer(Number(selectedId));
-    if (!player) {
-      console.log('Player not found!');
-      return;
-    }
-    // Подсчёт клеток по playerId среди всех клеток
-    let cellCount = 0;
-    for (const cell of jQuery_hn$0_2t_ea9b2_sub.allCells) {
-      if (cell.playerId === player.id) cellCount++;
-    }
-    console.log(`ID: ${player.id}\nName: ${player.name}\nCells: ${cellCount}`);
+    updateTrackedPlayersPanel();
   });
 }
 function qKCwea9bc_div(...AxisLockThreshold) {
