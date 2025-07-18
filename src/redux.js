@@ -5416,16 +5416,20 @@ async function NeweNPdm() {
   $('#menu-track').on('click', function () {
     const selectedId = djUgiSea98e_Fn.data('selected');
     if (!selectedId) {
-      alert('No player selected!');
+      console.log('No player selected!');
       return;
     }
     const player = zLCuf8c.getPlayer(Number(selectedId));
     if (!player) {
-      alert('Player not found!');
+      console.log('Player not found!');
       return;
     }
-    const cellCount = player.myCells ? player.myCells.size : 0;
-    alert(`ID: ${player.id}\nName: ${player.name}\nCells: ${cellCount}`);
+    // Подсчёт клеток по playerId среди всех клеток
+    let cellCount = 0;
+    for (const cell of jQuery_hn$0_2t_ea9b2_sub.allCells) {
+      if (cell.playerId === player.id) cellCount++;
+    }
+    console.log(`ID: ${player.id}\nName: ${player.name}\nCells: ${cellCount}`);
   });
 }
 function qKCwea9bc_div(...AxisLockThreshold) {
@@ -8028,7 +8032,6 @@ function finally_qFsWFdtea9d1_Ctx(
     );
   };
   $(".context-action").hide();
-  $("#menu-track").show();
   readUtf16(!MassDisplayType, "#menu-profile", "#menu-invite");
   readUtf16(
     SKIN_LOAD_STATUS && messageColors.party.length,
@@ -10438,4 +10441,3 @@ window.addEventListener("DOMContentLoaded", () => {
     window.api.close();
   });
 });
-//
