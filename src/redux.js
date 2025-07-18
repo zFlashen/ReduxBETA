@@ -5169,7 +5169,7 @@ async function NeweNPdm() {
         If$sEyzqKbhea93f_Exec.mouseZoom *= baseCellSize;
         Str_NmyJ4kX.mouseZoom *= baseCellSize;
       }
-      If$sEyzqKbhea93f_Exec.mouseZoom = Math.max(
+      If$sEyqKbhea93f_Exec.mouseZoom = Math.max(
         0.15,
         Math.min(If$sEyzqKbhea93f_Exec.mouseZoom, 8)
       );
@@ -5411,6 +5411,21 @@ async function NeweNPdm() {
   $("#cRainbowCell").on("change", function () {
     Mao5huZea938_run.cRainbowCell = this.checked;
     // Можно добавить сохранение в localStorage, если нужно
+  });
+
+  $('#menu-track').on('click', function () {
+    const selectedId = djUgiSea98e_Fn.data('selected');
+    if (!selectedId) {
+      alert('No player selected!');
+      return;
+    }
+    const player = zLCuf8c.getPlayer(Number(selectedId));
+    if (!player) {
+      alert('Player not found!');
+      return;
+    }
+    const cellCount = player.myCells ? player.myCells.size : 0;
+    alert(`ID: ${player.id}\nName: ${player.name}\nCells: ${cellCount}`);
   });
 }
 function qKCwea9bc_div(...AxisLockThreshold) {
