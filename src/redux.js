@@ -5413,6 +5413,9 @@ async function NeweNPdm() {
     // Можно добавить сохранение в localStorage, если нужно
   });
 
+  let trackedPlayerId = null;
+  let trackedPlayerInterval = null;
+
   $('#menu-track').on('click', function () {
     const selectedId = djUgiSea98e_Fn.data('selected');
     if (!selectedId) {
@@ -5424,16 +5427,31 @@ async function NeweNPdm() {
       console.log('Player not found!');
       return;
     }
+    trackedPlayerId = player.id;
+    updateTrackedInfo();
+    $('#tracked-info-row').show();
+    if (trackedPlayerInterval) clearInterval(trackedPlayerInterval);
+    trackedPlayerInterval = setInterval(updateTrackedInfo, 500);
+  });
+
+  function updateTrackedInfo() {
+    if (!trackedPlayerId) return;
+    const player = zLCuf8c.getPlayer(Number(trackedPlayerId));
+    if (!player) {
+      $('#tracked-info-row').hide();
+      clearInterval(trackedPlayerInterval);
+      trackedPlayerInterval = null;
+      trackedPlayerId = null;
+      return;
+    }
     let cellCount = 0;
     for (const cell of jQuery_hn$0_2t_ea9b2_sub.allCells) {
       if (cell.playerId === player.id) cellCount++;
     }
-    // Показываем и заполняем блок tracked-info-row
-    $('#tracked-info-row').show();
     $('#trackedId').text(player.id);
     $('#trackedName').text(player.name);
     $('#trackedCells').text(cellCount);
-  });
+  }
 }
 function qKCwea9bc_div(...AxisLockThreshold) {
   Object$kDcGWUY(baseCellSize, 2);
@@ -8036,6 +8054,43 @@ function finally_qFsWFdtea9d1_Ctx(
   };
   $(".context-action").hide();
   $("#menu-track").show();
+  $("#menu-track").on('click', function () {
+    const selectedId = djUgiSea98e_Fn.data('selected');
+    if (!selectedId) {
+      console.log('No player selected!');
+      return;
+    }
+    const player = zLCuf8c.getPlayer(Number(selectedId));
+    if (!player) {
+      console.log('Player not found!');
+      return;
+    }
+    trackedPlayerId = player.id;
+    updateTrackedInfo();
+    $('#tracked-info-row').show();
+    if (trackedPlayerInterval) clearInterval(trackedPlayerInterval);
+    trackedPlayerInterval = setInterval(updateTrackedInfo, 500);
+  });
+
+  function updateTrackedInfo() {
+    if (!trackedPlayerId) return;
+    const player = zLCuf8c.getPlayer(Number(trackedPlayerId));
+    if (!player) {
+      $('#tracked-info-row').hide();
+      clearInterval(trackedPlayerInterval);
+      trackedPlayerInterval = null;
+      trackedPlayerId = null;
+      return;
+    }
+    let cellCount = 0;
+    for (const cell of jQuery_hn$0_2t_ea9b2_sub.allCells) {
+      if (cell.playerId === player.id) cellCount++;
+    }
+    $('#trackedId').text(player.id);
+    $('#trackedName').text(player.name);
+    $('#trackedCells').text(cellCount);
+  }
+  $("#menu-track").show();
   readUtf16(!MassDisplayType, "#menu-profile", "#menu-invite");
   readUtf16(
     SKIN_LOAD_STATUS && messageColors.party.length,
@@ -10445,4 +10500,3 @@ window.addEventListener("DOMContentLoaded", () => {
     window.api.close();
   });
 });
-//
