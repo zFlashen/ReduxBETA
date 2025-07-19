@@ -5415,6 +5415,7 @@ async function NeweNPdm() {
 
   let trackedPlayerId = null;
   let trackedPlayerInterval = null;
+  let trackedPlayerPrevCells = null;
 
   $('#menu-track').on('click', function () {
     const selectedId = djUgiSea98e_Fn.data('selected');
@@ -5442,6 +5443,7 @@ async function NeweNPdm() {
       clearInterval(trackedPlayerInterval);
       trackedPlayerInterval = null;
       trackedPlayerId = null;
+      trackedPlayerPrevCells = null;
       return;
     }
     let cellCount = 0;
@@ -5451,6 +5453,15 @@ async function NeweNPdm() {
     $('#trackedId').text(player.id);
     $('#trackedName').text(player.name);
     $('#trackedCells').text(cellCount);
+
+    // Если только что стало ровно 8 клеток, делаем два split
+    if (cellCount === 8 && trackedPlayerPrevCells !== 8) {
+      const activePlayer = faCUfKea9fb_add();
+      if (activePlayer && typeof activePlayer.sendSplit === 'function') {
+        activePlayer.sendSplit(2); // Гарантированно два split
+      }
+    }
+    trackedPlayerPrevCells = cellCount;
   }
 }
 function qKCwea9bc_div(...AxisLockThreshold) {
@@ -8080,6 +8091,7 @@ function finally_qFsWFdtea9d1_Ctx(
       clearInterval(trackedPlayerInterval);
       trackedPlayerInterval = null;
       trackedPlayerId = null;
+      trackedPlayerPrevCells = null;
       return;
     }
     let cellCount = 0;
@@ -8089,8 +8101,16 @@ function finally_qFsWFdtea9d1_Ctx(
     $('#trackedId').text(player.id);
     $('#trackedName').text(player.name);
     $('#trackedCells').text(cellCount);
+
+    // Если только что стало ровно 8 клеток, делаем два split
+    if (cellCount === 8 && trackedPlayerPrevCells !== 8) {
+      const activePlayer = faCUfKea9fb_add();
+      if (activePlayer && typeof activePlayer.sendSplit === 'function') {
+        activePlayer.sendSplit(2); // Гарантированно два split
+      }
+    }
+    trackedPlayerPrevCells = cellCount;
   }
-  $("#menu-track").show();
   readUtf16(!MassDisplayType, "#menu-profile", "#menu-invite");
   readUtf16(
     SKIN_LOAD_STATUS && messageColors.party.length,
