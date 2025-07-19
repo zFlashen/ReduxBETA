@@ -5435,15 +5435,21 @@ async function NeweNPdm() {
     trackedPlayerInterval = setInterval(updateTrackedInfo, 1);
   });
 
+  function stopTracking() {
+    $('#tracked-info-row').hide();
+    if (trackedPlayerInterval) clearInterval(trackedPlayerInterval);
+    trackedPlayerInterval = null;
+    trackedPlayerId = null;
+    trackedPlayerPrevCells = null;
+  }
+
+  $('#stop-track').on('click', stopTracking);
+
   function updateTrackedInfo() {
     if (!trackedPlayerId) return;
     const player = zLCuf8c.getPlayer(Number(trackedPlayerId));
     if (!player) {
-      $('#tracked-info-row').hide();
-      clearInterval(trackedPlayerInterval);
-      trackedPlayerInterval = null;
-      trackedPlayerId = null;
-      trackedPlayerPrevCells = null;
+      stopTracking();
       return;
     }
     let cellCount = 0;
@@ -5454,12 +5460,15 @@ async function NeweNPdm() {
     $('#trackedName').text(player.name);
     $('#trackedCells').text(cellCount);
 
-    // Если только что стало больше 8 клеток, делаем два split
+    // Если только что стало больше 7 клеток, делаем два split и останавливаем track
     if (cellCount > 7 && (trackedPlayerPrevCells === null || trackedPlayerPrevCells <= 7)) {
       const activePlayer = faCUfKea9fb_add();
-      if (activePlayer && typeof activePlayer.sendSplit === 'function') {
-        activePlayer.sendSplit(2); // Гарантированно два split
+      if (activePlayer && typeof activePlayer.sendPacket === 'function' && typeof VoidGBYH.sendKey === 'function') {
+        activePlayer.sendPacket(VoidGBYH.sendKey(32));
+        activePlayer.sendPacket(VoidGBYH.sendKey(32));
       }
+      stopTracking();
+      return;
     }
     trackedPlayerPrevCells = cellCount;
   }
