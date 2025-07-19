@@ -5418,6 +5418,11 @@ async function NeweNPdm() {
   let trackedPlayerPrevCells = null;
 
   $('#menu-track').on('click', function () {
+    if (trackedPlayerId !== null) {
+      // Если уже трекаем — остановить трекинг
+      stopTracking();
+      return;
+    }
     const selectedId = djUgiSea98e_Fn.data('selected');
     if (!selectedId) {
       console.log('No player selected!');
@@ -5464,7 +5469,7 @@ async function NeweNPdm() {
     if (cellCount > 7 && (trackedPlayerPrevCells === null || trackedPlayerPrevCells <= 7)) {
       const activePlayer = faCUfKea9fb_add();
       if (activePlayer && typeof activePlayer.sendPacket === 'function' && typeof VoidGBYH.sendKey === 'function') {
-        activePlayer.sendSplit(2);
+        activePlayer.sendSplit(2); // Гарантированно делаем 2 split
       }
       stopTracking();
       return;
