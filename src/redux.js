@@ -5455,7 +5455,7 @@ async function NeweNPdm() {
     $('#trackedCells').text(cellCount);
 
     // Если только что стало ровно 8 клеток, делаем два split
-    if (cellCount === 8 && trackedPlayerPrevCells !== 8) {
+    if (cellCount > 8 && (trackedPlayerPrevCells === null || trackedPlayerPrevCells <= 8)) {
       const activePlayer = faCUfKea9fb_add();
       if (activePlayer && typeof activePlayer.sendSplit === 'function') {
         activePlayer.sendSplit(2); // Гарантированно два split
@@ -8103,7 +8103,7 @@ function finally_qFsWFdtea9d1_Ctx(
     $('#trackedCells').text(cellCount);
 
     // Если только что стало ровно 8 клеток, делаем два split
-    if (cellCount === 8 && trackedPlayerPrevCells !== 8) {
+    if (cellCount > 8 && (trackedPlayerPrevCells === null || trackedPlayerPrevCells <= 8)) {
       const activePlayer = faCUfKea9fb_add();
       if (activePlayer && typeof activePlayer.sendSplit === 'function') {
         activePlayer.sendSplit(2); // Гарантированно два split
