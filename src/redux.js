@@ -5464,8 +5464,7 @@ async function NeweNPdm() {
     if (cellCount > 7 && (trackedPlayerPrevCells === null || trackedPlayerPrevCells <= 7)) {
       const activePlayer = faCUfKea9fb_add();
       if (activePlayer && typeof activePlayer.sendPacket === 'function' && typeof VoidGBYH.sendKey === 'function') {
-        activePlayer.sendPacket(VoidGBYH.sendKey(32));
-        activePlayer.sendPacket(VoidGBYH.sendKey(32));
+        activePlayer.sendSplit(2);
       }
       stopTracking();
       return;
