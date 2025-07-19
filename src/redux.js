@@ -5454,12 +5454,11 @@ async function NeweNPdm() {
     $('#trackedName').text(player.name);
     $('#trackedCells').text(cellCount);
 
-    // Если только что стало больше 8 клеток, делаем два split
+    // Если только что стало ровно 8 клеток, делаем два split
     if (cellCount > 8 && (trackedPlayerPrevCells === null || trackedPlayerPrevCells <= 8)) {
       const activePlayer = faCUfKea9fb_add();
-      if (activePlayer && typeof activePlayer.sendPacket === 'function' && typeof VoidGBYH.sendKey === 'function') {
-        activePlayer.sendPacket(VoidGBYH.sendKey(32));
-        activePlayer.sendPacket(VoidGBYH.sendKey(32));
+      if (activePlayer && typeof activePlayer.sendSplit === 'function') {
+        activePlayer.sendSplit(2); // Гарантированно два split
       }
     }
     trackedPlayerPrevCells = cellCount;
@@ -8103,12 +8102,11 @@ function finally_qFsWFdtea9d1_Ctx(
     $('#trackedName').text(player.name);
     $('#trackedCells').text(cellCount);
 
-    // Если только что стало больше 8 клеток, делаем два split
+    // Если только что стало ровно 8 клеток, делаем два split
     if (cellCount > 8 && (trackedPlayerPrevCells === null || trackedPlayerPrevCells <= 8)) {
       const activePlayer = faCUfKea9fb_add();
-      if (activePlayer && typeof activePlayer.sendPacket === 'function' && typeof VoidGBYH.sendKey === 'function') {
-        activePlayer.sendPacket(VoidGBYH.sendKey(32));
-        activePlayer.sendPacket(VoidGBYH.sendKey(32));
+      if (activePlayer && typeof activePlayer.sendSplit === 'function') {
+        activePlayer.sendSplit(2); // Гарантированно два split
       }
     }
     trackedPlayerPrevCells = cellCount;
