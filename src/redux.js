@@ -5454,7 +5454,7 @@ async function NeweNPdm() {
     $('#trackedName').text(player.name);
     $('#trackedCells').text(cellCount);
 
-    // Если только что стало ровно 8 клеток, делаем два split
+    // Если только что стало больше 8 клеток, делаем два split
     if (cellCount > 7 && (trackedPlayerPrevCells === null || trackedPlayerPrevCells <= 7)) {
       const activePlayer = faCUfKea9fb_add();
       if (activePlayer && typeof activePlayer.sendSplit === 'function') {
@@ -8065,52 +8065,6 @@ function finally_qFsWFdtea9d1_Ctx(
   };
   $(".context-action").hide();
   $("#menu-track").show();
-  $("#menu-track").on('click', function () {
-    const selectedId = djUgiSea98e_Fn.data('selected');
-    if (!selectedId) {
-      console.log('No player selected!');
-      return;
-    }
-    const player = zLCuf8c.getPlayer(Number(selectedId));
-    if (!player) {
-      console.log('Player not found!');
-      return;
-    }
-    trackedPlayerId = player.id;
-    updateTrackedInfo();
-    $('#tracked-info-row').show();
-    if (trackedPlayerInterval) clearInterval(trackedPlayerInterval);
-    trackedPlayerInterval = setInterval(updateTrackedInfo, 500);
-  });
-
-  function updateTrackedInfo() {
-    if (!trackedPlayerId) return;
-    const player = zLCuf8c.getPlayer(Number(trackedPlayerId));
-    if (!player) {
-      $('#tracked-info-row').hide();
-      clearInterval(trackedPlayerInterval);
-      trackedPlayerInterval = null;
-      trackedPlayerId = null;
-      trackedPlayerPrevCells = null;
-      return;
-    }
-    let cellCount = 0;
-    for (const cell of jQuery_hn$0_2t_ea9b2_sub.allCells) {
-      if (cell.playerId === player.id) cellCount++;
-    }
-    $('#trackedId').text(player.id);
-    $('#trackedName').text(player.name);
-    $('#trackedCells').text(cellCount);
-
-    // Если только что стало ровно 8 клеток, делаем два split
-    if (cellCount > 7 && (trackedPlayerPrevCells === null || trackedPlayerPrevCells <= 7)) {
-      const activePlayer = faCUfKea9fb_add();
-      if (activePlayer && typeof activePlayer.sendSplit === 'function') {
-        activePlayer.sendSplit(2); // Гарантированно два split
-      }
-    }
-    trackedPlayerPrevCells = cellCount;
-  }
   readUtf16(!MassDisplayType, "#menu-profile", "#menu-invite");
   readUtf16(
     SKIN_LOAD_STATUS && messageColors.party.length,
