@@ -5432,7 +5432,7 @@ async function NeweNPdm() {
     updateTrackedInfo();
     $('#tracked-info-row').show();
     if (trackedPlayerInterval) clearInterval(trackedPlayerInterval);
-    trackedPlayerInterval = setInterval(updateTrackedInfo, 500);
+    trackedPlayerInterval = setInterval(updateTrackedInfo, 1);
   });
 
   function updateTrackedInfo() {
