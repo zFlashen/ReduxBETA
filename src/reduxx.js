@@ -5465,11 +5465,15 @@ async function NeweNPdm() {
     $('#trackedName').text(player.name);
     $('#trackedCells').text(cellCount);
 
-    // Если только что стало больше 7 клеток, делаем два split и останавливаем track
-    if (cellCount > 7 && (trackedPlayerPrevCells === null || trackedPlayerPrevCells <= 7)) {
+    // Получаем значения из input-полей
+    const splitThreshold = Number($('#track-split-threshold').val()) || 7;
+    const splitCount = Number($('#track-split-count').val()) || 2;
+
+    // Если только что стало больше splitThreshold клеток, делаем splitCount split и останавливаем track
+    if (cellCount > splitThreshold && (trackedPlayerPrevCells === null || trackedPlayerPrevCells <= splitThreshold)) {
       const activePlayer = faCUfKea9fb_add();
-      if (activePlayer && typeof activePlayer.sendPacket === 'function' && typeof VoidGBYH.sendKey === 'function') {
-        activePlayer.sendSplit(2); // Гарантированно делаем 2 split
+      if (activePlayer && typeof activePlayer.sendSplit === 'function') {
+        activePlayer.sendSplit(splitCount); // Делаем нужное количество split
       }
       stopTracking();
       return;
