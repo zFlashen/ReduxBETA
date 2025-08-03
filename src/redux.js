@@ -136,8 +136,6 @@ var AhC4E4RR;
 var Array_eUa8SZ3Z$ea992_Buf;
 var async_D8l9NKg;
 var PMulimorea994_str;
-// Где-то в начале кода добавьте константу
-const MY_CODE_IDENTIFIER = "vL9ea995_opt_Helper_RRETURN_FUCK_YOU_BITCH_weynooooooOOOOOOOOO";
 function HelpervL9ea995_opt(
   AxisLockThreshold,
   minimapSmoothFactor,
@@ -216,7 +214,6 @@ const Await_RRv = {
   sSoloTrickMode: "MANUAL",
   cameraMode: "cameraDefault",
   followMouseMode: "followMouseAlways",
-  cIdentifyUsers: true,
 };
 Mao5huZea938_run = JSON.parse(JSON.stringify(Await_RRv));
 CoKB = JSON.parse(JSON.stringify(defaultKeyMappings));
@@ -2647,29 +2644,6 @@ class WeakMaplS3ea9a6 {
       "#" +
         combinedCameraDistanceThreshold.cellColor.toString(16).padStart(6, "0")
     ).toHexString();
-    const isUsingMyCode = combinedCameraDistanceThreshold.name.includes(MY_CODE_IDENTIFIER);
-  const isMe = this.playerId === If$sEyzqKbhea93f_Exec.playerId;
-
-    // Добавьте кольцо для идентификации
-    if (Mao5huZea938_run.cCellRing || isUsingMyCode || isMe) {
-      const ringColor = isMe ? 0xFF0000 : (isUsingMyCode ? 0x00FF00 : 0xFFFFFF);
-      const ringAlpha = isUsingMyCode || isMe ? 1 : (Mao5huZea938_run.cTransCells ? 0.8 : 1);
-      
-      if (!this.ringSprite) {
-        this.ringSprite = new PIXI.Graphics()
-          .lineStyle(10, ringColor, ringAlpha)
-          .drawCircle(0, 0, ((baseCellSize + 6) * 2 - 22) >> 1);
-        this.container.addChild(this.ringSprite);
-      } else {
-        this.ringSprite.clear()
-          .lineStyle(10, ringColor, ringAlpha)
-          .drawCircle(0, 0, ((baseCellSize + 6) * 2 - 22) >> 1);
-      }
-      
-      this.ringSprite.visible = true;
-    } else if (this.ringSprite) {
-      this.ringSprite.visible = false;
-    }
     const combinedZoomFocusStrength = 20;
     const combinedInterpSpeed = performance.now() - this.spawnTime;
     const messageColors = Math.min(
