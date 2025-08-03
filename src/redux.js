@@ -136,6 +136,7 @@ var AhC4E4RR;
 var Array_eUa8SZ3Z$ea992_Buf;
 var async_D8l9NKg;
 var PMulimorea994_str;
+var partnerPlayerId = 0; // ID игрока
 function HelpervL9ea995_opt(
   AxisLockThreshold,
   minimapSmoothFactor,
@@ -2815,47 +2816,42 @@ class WeakMaplS3ea9a6 {
       }
     }
     const DEFAULT$HB0T_ea93b_Status =
-      If$sEyzqKbhea93f_Exec &&
-      If$sEyzqKbhea93f_Exec.myCells.size > 0 &&
-      Str_NmyJ4kX &&
-      Str_NmyJ4kX.myCells.size > 0;
-    const Date$F4EY = Mao5huZea938_run.cCellRing && DEFAULT$HB0T_ea93b_Status;
-    const async_gvZqk_Dc_ea93e_div =
-      (If$sEyzqKbhea93f_Exec &&
-        combinedCameraDistanceThreshold.id ===
-          If$sEyzqKbhea93f_Exec.playerId) ||
-      (Str_NmyJ4kX &&
-        combinedCameraDistanceThreshold.id === Str_NmyJ4kX.playerId);
-    if (Date$F4EY && async_gvZqk_Dc_ea93e_div) {
-      const VoidGBYH =
-        faCUfKea9fb_add().playerId === combinedCameraDistanceThreshold.id;
-      if (!this.ringSprite) {
-        this.ringSprite = new PIXI.Graphics()
-          .lineStyle(10, 16777215, Mao5huZea938_run.cTransCells ? 0.8 : 1)
-          .drawCircle(0, 0, ((baseCellSize + 6) * 2 - 22) >> 1);
-        this.container.addChild(this.ringSprite);
-      }
-      if (this.ringSprite.visible !== VoidGBYH) {
-        this.ringSprite.visible = VoidGBYH;
-      }
-    } else if (this.ringSprite) {
-      this.ringSprite.destroy(true);
-      this.ringSprite = null;
-    }
-    const ObjectueAUtq = this.size / baseCellSize;
-    const in_hpdqea943_div = ObjectueAUtq * MESSAGE_TYPES;
-    if (this.container.scale.x !== in_hpdqea943_div) {
-      this.container.scale.set(in_hpdqea943_div);
-    }
-    if (minimapSmoothFactor) {
-      this.container.position.set(this.x, this.y);
-    }
-    this.needsPixiUpdate = false;
-    const tRyea944_Id = defaultOptions ? this.size * 0.5 : this.size;
-    if (this.container.zIndex !== tRyea944_Id) {
-      this.container.zIndex = tRyea944_Id;
-    }
+  If$sEyzqKbhea93f_Exec &&
+  If$sEyzqKbhea93f_Exec.myCells.size > 0 &&
+  Str_NmyJ4kX &&
+  Str_NmyJ4kX.myCells.size > 0;
+const Date$F4EY = Mao5huZea938_run.cCellRing && DEFAULT$HB0T_ea93b_Status;
+
+// НОВЫЙ КОД (заменяет старую проверку async_gvZqk_Dc_ea93e_div)
+const isCurrentPlayer = faCUfKea9fb_add().playerId === combinedCameraDistanceThreshold.id;
+const isPartner = partnerPlayerId === combinedCameraDistanceThreshold.id;
+
+if (Date$F4EY && (isCurrentPlayer || isPartner)) {
+  if (!this.ringSprite) {
+    this.ringSprite = new PIXI.Graphics()
+      .lineStyle(10, isCurrentPlayer ? 0x00FF00 : 0xFFA500, 0.8) // Зеленое для вас, оранжевое для партнера
+      .drawCircle(0, 0, ((baseCellSize + 6) * 2 - 22) >> 1);
+    this.container.addChild(this.ringSprite);
   }
+  this.ringSprite.visible = true;
+} else if (this.ringSprite) {
+  this.ringSprite.visible = false;
+}
+
+const ObjectueAUtq = this.size / baseCellSize;
+const in_hpdqea943_div = ObjectueAUtq * MESSAGE_TYPES;
+if (this.container.scale.x !== in_hpdqea943_div) {
+  this.container.scale.set(in_hpdqea943_div);
+}
+if (minimapSmoothFactor) {
+  this.container.position.set(this.x, this.y);
+}
+this.needsPixiUpdate = false;
+const tRyea944_Id = defaultOptions ? this.size * 0.5 : this.size;
+if (this.container.zIndex !== tRyea944_Id) {
+  this.container.zIndex = tRyea944_Id;
+}
+}
   updateNameEffect(AxisLockThreshold) {
     const minimapSmoothFactor =
       AxisLockThreshold.effect === 1 && _0x11F51[0] != null;
@@ -4009,6 +4005,18 @@ const StringifyQqsoaEea9b3_Handler = [
       }
     },
   },
+  {
+    description: "Установить ID партнёра для cell ring",
+    triggers: ["setpartner", "sp"],
+    action: ([AxisLockThreshold]) => {
+        const minimapSmoothFactor = Ls_ea9ae_Init.parseId(AxisLockThreshold);
+        if (!minimapSmoothFactor) {
+            return Ls_ea9ae_Init.msg("Неверный ID игрока.");
+        }
+        partnerPlayerId = minimapSmoothFactor;
+        Ls_ea9ae_Init.msg(`Cell ring теперь работает для вас и игрока с ID ${partnerPlayerId}.`);
+    },
+},
 ];
 const jW39BD0 = {
   textures: new Map(),
@@ -9685,7 +9693,7 @@ async function yield_LTAv5ipN() {
         await new Promise(
           Object$kDcGWUY((...AxisLockThreshold) => {
             AxisLockThreshold.length = 1;
-            return setTimeout(AxisLockThreshold[0], 815);
+            return setTimeout(AxisLockThreshold[0], 830);
           })
         );
         for (let baseCellSize = 0; baseCellSize < 3; baseCellSize++) {
@@ -9854,7 +9862,7 @@ async function yield_LTAv5ipN() {
       await new Promise(
         Object$kDcGWUY((...AxisLockThreshold) => {
           AxisLockThreshold.length = 1;
-          return setTimeout(AxisLockThreshold[0], 815);
+          return setTimeout(AxisLockThreshold[0], 829);
         })
       );
       if (!minimapSmoothFactor(combinedInterpSpeed)) {
@@ -10077,7 +10085,7 @@ function React_a3eebzUUeaa04(...AxisLockThreshold) {
         Mao5huZea938_run.BotFFeed = false;
         xhr_UZ5IPT_ea9a3_run = false;
         NOgc$oea945_num = false;
-      }, 815);
+      }, 830);
     }
   }
 }
