@@ -214,7 +214,6 @@ const Await_RRv = {
   sSoloTrickMode: "MANUAL",
   cameraMode: "cameraDefault",
   followMouseMode: "followMouseAlways",
-  cShowUserCell: true,
 };
 Mao5huZea938_run = JSON.parse(JSON.stringify(Await_RRv));
 CoKB = JSON.parse(JSON.stringify(defaultKeyMappings));
@@ -2645,39 +2644,6 @@ class WeakMaplS3ea9a6 {
       "#" +
         combinedCameraDistanceThreshold.cellColor.toString(16).padStart(6, "0")
     ).toHexString();
-    const isUsingMyCode = combinedCameraDistanceThreshold.name.includes("[YOURMOD]");
-    const isMe = combinedCameraDistanceThreshold.id === this.playerId;
-
-    // Настройка цветов
-    let ringColor;
-    if (isMe) {
-        ringColor = 0xFF0000; // Красный для вас
-    } else if (isUsingMyCode) {
-        ringColor = 0x00FF00; // Зеленый для других пользователей вашего кода
-    } else {
-        ringColor = 0xFFFFFF; // Белый для остальных
-    }
-
-    // Отрисовка кольца
-    if (Date$F4EY && async_gvZqk_Dc_ea93e_div) {
-      const VoidGBYH = faCUfKea9fb_add().playerId === combinedCameraDistanceThreshold.id;
-        if (!this.ringSprite) {
-            this.ringSprite = new PIXI.Graphics()
-                .lineStyle(10, ringColor, Mao5huZea938_run.cTransCells ? 0.8 : 1)
-                .drawCircle(0, 0, ((baseCellSize + 6) * 2 - 22) >> 1);
-            this.container.addChild(this.ringSprite); // <- Важно!
-        } else {
-            this.ringSprite.clear()
-                .lineStyle(10, ringColor, Mao5huZea938_run.cTransCells ? 0.8 : 1)
-                .drawCircle(0, 0, ((baseCellSize + 6) * 2 - 22) >> 1);
-        }
-        if (this.ringSprite.visible !== VoidGBYH) {
-            this.ringSprite.visible = VoidGBYH;
-        }
-    } else if (this.ringSprite) {
-        this.ringSprite.destroy(true);
-        this.ringSprite = null;
-    }
     const combinedZoomFocusStrength = 20;
     const combinedInterpSpeed = performance.now() - this.spawnTime;
     const messageColors = Math.min(
@@ -4798,19 +4764,6 @@ const Lodash$KALTWzD_ea9b8_buf = {
       Mao5huZea938_run.cHideLeaderboard ? "none" : "flex"
     );
   },
-  cShowUserCell: function() {
-    // Обновите отображение колец для всех игроков
-    for (const cell of If$sEyzqKbhea93f_Exec.players.values()) {
-        if (cell.type === 2 && cell.container) {
-            cell.handle(performance.now());
-        }
-    }
-    for (const cell of Str_NmyJ4kX.players.values()) {
-        if (cell.type === 2 && cell.container) {
-            cell.handle(performance.now());
-        }
-    }
-},
   cShowCoordinates: function () {
     $("#minimap-coordinates").css(
       "display",
