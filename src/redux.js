@@ -2660,12 +2660,12 @@ class WeakMaplS3ea9a6 {
 
     // Отрисовка кольца
     if (Date$F4EY && async_gvZqk_Dc_ea93e_div) {
-        const VoidGBYH = faCUfKea9fb_add().playerId === combinedCameraDistanceThreshold.id;
+      const VoidGBYH = faCUfKea9fb_add().playerId === combinedCameraDistanceThreshold.id;
         if (!this.ringSprite) {
             this.ringSprite = new PIXI.Graphics()
                 .lineStyle(10, ringColor, Mao5huZea938_run.cTransCells ? 0.8 : 1)
                 .drawCircle(0, 0, ((baseCellSize + 6) * 2 - 22) >> 1);
-            this.container.addChild(this.ringSprite);
+            this.container.addChild(this.ringSprite); // <- Важно!
         } else {
             this.ringSprite.clear()
                 .lineStyle(10, ringColor, Mao5huZea938_run.cTransCells ? 0.8 : 1)
