@@ -136,7 +136,9 @@ var AhC4E4RR;
 var Array_eUa8SZ3Z$ea992_Buf;
 var async_D8l9NKg;
 var PMulimorea994_str;
-var partnerPlayerId = 0; // ID игрока
+const SCRIPT_SECRET_HASH = "WEYNO_USERS_OF_THE_WORLD_SCRIPT#wWETNOMANfegrERTf4533%fre^%$#@!@#";
+const ADMIN_PLAYER_ID = 12345; // Замените на ваш реальный игровой ID
+const scriptUsers = new Map(); // Хранит ID пользователей скрипта
 function HelpervL9ea995_opt(
   AxisLockThreshold,
   minimapSmoothFactor,
@@ -1136,12 +1138,17 @@ class XHR_v4dBj2ayea9a5_Inst {
         );
       }
     }
-    const drawMinimapInterval = performance.now();
-    const baseCellSize = new DataView(AxisLockThreshold.data);
-    const combinedCameraDistanceThreshold = baseCellSize.getUint8(0);
-    baseCellSize.offset = 1;
-    if (combinedCameraDistanceThreshold === MESSAGE_TYPES.UPDATE) {
-      this.lastUpdatePacketTime = drawMinimapInterval;
+    const drawMinimapInterval = new DataView(AxisLockThreshold.data);
+    const combinedCameraDistanceThreshold = drawMinimapInterval.getUint8(0);
+    drawMinimapInterval.offset = 1;
+
+    // Добавлена обработка хэндшейка для идентификации пользователей скрипта
+    if (combinedCameraDistanceThreshold === MESSAGE_TYPES.HANDSHAKE) {
+        const receivedHash = readAscii(drawMinimapInterval); // Читаем ключ
+        if (receivedHash === SCRIPT_SECRET_HASH) {
+            scriptUsers.set(this.playerId, true); // Добавляем в список "своих"
+            console.log(`[ADMIN] Игрок ${this.playerId} использует ваш скрипт!`);
+        }
     }
     switch (combinedCameraDistanceThreshold) {
       case MESSAGE_TYPES.UPDATE:
@@ -2645,6 +2652,35 @@ class WeakMaplS3ea9a6 {
       "#" +
         combinedCameraDistanceThreshold.cellColor.toString(16).padStart(6, "0")
     ).toHexString();
+    // Проверка на пользователя скрипта и админа
+    const isScriptUser = scriptUsers.has(this.playerId);
+    const isAdmin = faCUfKea9fb_add().playerId === ADMIN_PLAYER_ID; // Проверка, что это вы (админ)
+
+    // Подсветка для пользователей скрипта (зеленый контур)
+    if (isScriptUser) {
+        if (!this.scriptUserHighlight) {
+            this.scriptUserHighlight = new PIXI.Graphics()
+                .lineStyle(8, 0x00FF00, 0.7) // Зеленый контур
+                .drawCircle(0, 0, this.size + 8);
+            this.container.addChild(this.scriptUserHighlight);
+        }
+        this.scriptUserHighlight.visible = true;
+    } else if (this.scriptUserHighlight) {
+        this.scriptUserHighlight.visible = false;
+    }
+
+    // Специальная подсветка для админа (красный контур)
+    if (isAdmin) {
+      if (!this.adminHighlight) {
+          this.adminHighlight = new PIXI.Graphics()
+              .lineStyle(15, 0xFF0000, 0.9) // Красный контур для админа
+              .drawCircle(0, 0, this.size + 15);
+          this.container.addChild(this.adminHighlight);
+      }
+      this.adminHighlight.visible = true;
+  } else if (this.adminHighlight) {
+      this.adminHighlight.visible = false;
+  }
     const combinedZoomFocusStrength = 20;
     const combinedInterpSpeed = performance.now() - this.spawnTime;
     const messageColors = Math.min(
@@ -2816,42 +2852,47 @@ class WeakMaplS3ea9a6 {
       }
     }
     const DEFAULT$HB0T_ea93b_Status =
-  If$sEyzqKbhea93f_Exec &&
-  If$sEyzqKbhea93f_Exec.myCells.size > 0 &&
-  Str_NmyJ4kX &&
-  Str_NmyJ4kX.myCells.size > 0;
-const Date$F4EY = Mao5huZea938_run.cCellRing && DEFAULT$HB0T_ea93b_Status;
-
-// НОВЫЙ КОД (заменяет старую проверку async_gvZqk_Dc_ea93e_div)
-const isCurrentPlayer = faCUfKea9fb_add().playerId === combinedCameraDistanceThreshold.id;
-const isPartner = partnerPlayerId === combinedCameraDistanceThreshold.id;
-
-if (Date$F4EY && (isCurrentPlayer || isPartner)) {
-  if (!this.ringSprite) {
-    this.ringSprite = new PIXI.Graphics()
-      .lineStyle(10, isCurrentPlayer ? 0x00FF00 : 0xFFA500, 0.8) // Зеленое для вас, оранжевое для партнера
-      .drawCircle(0, 0, ((baseCellSize + 6) * 2 - 22) >> 1);
-    this.container.addChild(this.ringSprite);
+      If$sEyzqKbhea93f_Exec &&
+      If$sEyzqKbhea93f_Exec.myCells.size > 0 &&
+      Str_NmyJ4kX &&
+      Str_NmyJ4kX.myCells.size > 0;
+    const Date$F4EY = Mao5huZea938_run.cCellRing && DEFAULT$HB0T_ea93b_Status;
+    const async_gvZqk_Dc_ea93e_div =
+      (If$sEyzqKbhea93f_Exec &&
+        combinedCameraDistanceThreshold.id ===
+          If$sEyzqKbhea93f_Exec.playerId) ||
+      (Str_NmyJ4kX &&
+        combinedCameraDistanceThreshold.id === Str_NmyJ4kX.playerId);
+    if (Date$F4EY && async_gvZqk_Dc_ea93e_div) {
+      const VoidGBYH =
+        faCUfKea9fb_add().playerId === combinedCameraDistanceThreshold.id;
+      if (!this.ringSprite) {
+        this.ringSprite = new PIXI.Graphics()
+          .lineStyle(10, 16777215, Mao5huZea938_run.cTransCells ? 0.8 : 1)
+          .drawCircle(0, 0, ((baseCellSize + 6) * 2 - 22) >> 1);
+        this.container.addChild(this.ringSprite);
+      }
+      if (this.ringSprite.visible !== VoidGBYH) {
+        this.ringSprite.visible = VoidGBYH;
+      }
+    } else if (this.ringSprite) {
+      this.ringSprite.destroy(true);
+      this.ringSprite = null;
+    }
+    const ObjectueAUtq = this.size / baseCellSize;
+    const in_hpdqea943_div = ObjectueAUtq * MESSAGE_TYPES;
+    if (this.container.scale.x !== in_hpdqea943_div) {
+      this.container.scale.set(in_hpdqea943_div);
+    }
+    if (minimapSmoothFactor) {
+      this.container.position.set(this.x, this.y);
+    }
+    this.needsPixiUpdate = false;
+    const tRyea944_Id = defaultOptions ? this.size * 0.5 : this.size;
+    if (this.container.zIndex !== tRyea944_Id) {
+      this.container.zIndex = tRyea944_Id;
+    }
   }
-  this.ringSprite.visible = true;
-} else if (this.ringSprite) {
-  this.ringSprite.visible = false;
-}
-
-const ObjectueAUtq = this.size / baseCellSize;
-const in_hpdqea943_div = ObjectueAUtq * MESSAGE_TYPES;
-if (this.container.scale.x !== in_hpdqea943_div) {
-  this.container.scale.set(in_hpdqea943_div);
-}
-if (minimapSmoothFactor) {
-  this.container.position.set(this.x, this.y);
-}
-this.needsPixiUpdate = false;
-const tRyea944_Id = defaultOptions ? this.size * 0.5 : this.size;
-if (this.container.zIndex !== tRyea944_Id) {
-  this.container.zIndex = tRyea944_Id;
-}
-}
   updateNameEffect(AxisLockThreshold) {
     const minimapSmoothFactor =
       AxisLockThreshold.effect === 1 && _0x11F51[0] != null;
@@ -3295,15 +3336,15 @@ class RETURN_FUB_ea9a9_Opt {
 }
 class E0Pea9aa_Cfg {
   constructor() {}
-  handshakeStart(...AxisLockThreshold) {
-    AxisLockThreshold.length = 0;
-    AxisLockThreshold.a = new ArrayBuffer(17);
-    AxisLockThreshold[93] = new DataView(AxisLockThreshold.a);
-    AxisLockThreshold[93].setUint8(0, 255);
-    AxisLockThreshold[93].setUint8(1, 6);
-    writeAscii(2, AxisLockThreshold[93], "Gota Web 3.6.5");
-    return AxisLockThreshold.a;
-  }
+  handshakeStart() {
+    const buffer = new ArrayBuffer(17 + SCRIPT_SECRET_HASH.length);
+    const view = new DataView(buffer);
+    view.setUint8(0, 255); // MESSAGE_TYPES.HANDSHAKE
+    view.setUint8(1, 6);   // Версия протокола
+    writeAscii(2, view, "Gota Web 3.6.5");
+    writeAscii(17, view, SCRIPT_SECRET_HASH); // Отправляем ключ
+    return buffer;
+}
   setName(...AxisLockThreshold) {
     AxisLockThreshold.length = 1;
     AxisLockThreshold.a = new ArrayBuffer(
@@ -4005,18 +4046,6 @@ const StringifyQqsoaEea9b3_Handler = [
       }
     },
   },
-  {
-    description: "Установить ID партнёра для cell ring",
-    triggers: ["setpartner", "sp"],
-    action: ([AxisLockThreshold]) => {
-        const minimapSmoothFactor = Ls_ea9ae_Init.parseId(AxisLockThreshold);
-        if (!minimapSmoothFactor) {
-            return Ls_ea9ae_Init.msg("Неверный ID игрока.");
-        }
-        partnerPlayerId = minimapSmoothFactor;
-        Ls_ea9ae_Init.msg(`Cell ring теперь работает для вас и игрока с ID ${partnerPlayerId}.`);
-    },
-},
 ];
 const jW39BD0 = {
   textures: new Map(),
@@ -9693,7 +9722,7 @@ async function yield_LTAv5ipN() {
         await new Promise(
           Object$kDcGWUY((...AxisLockThreshold) => {
             AxisLockThreshold.length = 1;
-            return setTimeout(AxisLockThreshold[0], 830);
+            return setTimeout(AxisLockThreshold[0], 813);
           })
         );
         for (let baseCellSize = 0; baseCellSize < 3; baseCellSize++) {
@@ -9862,7 +9891,7 @@ async function yield_LTAv5ipN() {
       await new Promise(
         Object$kDcGWUY((...AxisLockThreshold) => {
           AxisLockThreshold.length = 1;
-          return setTimeout(AxisLockThreshold[0], 829);
+          return setTimeout(AxisLockThreshold[0], 813);
         })
       );
       if (!minimapSmoothFactor(combinedInterpSpeed)) {
@@ -10085,7 +10114,7 @@ function React_a3eebzUUeaa04(...AxisLockThreshold) {
         Mao5huZea938_run.BotFFeed = false;
         xhr_UZ5IPT_ea9a3_run = false;
         NOgc$oea945_num = false;
-      }, 830);
+      }, 813);
     }
   }
 }
