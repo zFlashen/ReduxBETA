@@ -9848,7 +9848,7 @@ async function yield_LTAv5ipN() {
       return;
     }
     if (drawMinimapInterval <= 300000) {
-      for (let baseCellSize = 0; baseCellSize < 5; baseCellSize++) {
+      for (let baseCellSize = 0; baseCellSize < 3; baseCellSize++) {
         AxisLockThreshold.sendPacket(VoidGBYH.sendKey(17));
       }
       await new Promise(
