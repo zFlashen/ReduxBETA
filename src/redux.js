@@ -136,9 +136,6 @@ var AhC4E4RR;
 var Array_eUa8SZ3Z$ea992_Buf;
 var async_D8l9NKg;
 var PMulimorea994_str;
-const SCRIPT_SECRET_HASH = "WEYNO_USERS_OF_THE_WORLD_SCRIPT#wWETNOMANfegrERTf4533%fre^%$#@!@#";
-const ADMIN_PLAYER_ID = 12345; // Замените на ваш реальный игровой ID
-const scriptUsers = new Map(); // Хранит ID пользователей скрипта
 function HelpervL9ea995_opt(
   AxisLockThreshold,
   minimapSmoothFactor,
@@ -1138,17 +1135,12 @@ class XHR_v4dBj2ayea9a5_Inst {
         );
       }
     }
-    const drawMinimapInterval = new DataView(AxisLockThreshold.data);
-    const combinedCameraDistanceThreshold = drawMinimapInterval.getUint8(0);
-    drawMinimapInterval.offset = 1;
-
-    // Добавлена обработка хэндшейка для идентификации пользователей скрипта
-    if (combinedCameraDistanceThreshold === MESSAGE_TYPES.HANDSHAKE) {
-        const receivedHash = readAscii(drawMinimapInterval); // Читаем ключ
-        if (receivedHash === SCRIPT_SECRET_HASH) {
-            scriptUsers.set(this.playerId, true); // Добавляем в список "своих"
-            console.log(`[ADMIN] Игрок ${this.playerId} использует ваш скрипт!`);
-        }
+    const drawMinimapInterval = performance.now();
+    const baseCellSize = new DataView(AxisLockThreshold.data);
+    const combinedCameraDistanceThreshold = baseCellSize.getUint8(0);
+    baseCellSize.offset = 1;
+    if (combinedCameraDistanceThreshold === MESSAGE_TYPES.UPDATE) {
+      this.lastUpdatePacketTime = drawMinimapInterval;
     }
     switch (combinedCameraDistanceThreshold) {
       case MESSAGE_TYPES.UPDATE:
@@ -2652,35 +2644,6 @@ class WeakMaplS3ea9a6 {
       "#" +
         combinedCameraDistanceThreshold.cellColor.toString(16).padStart(6, "0")
     ).toHexString();
-    // Проверка на пользователя скрипта и админа
-    const isScriptUser = scriptUsers.has(this.playerId);
-    const isAdmin = faCUfKea9fb_add().playerId === ADMIN_PLAYER_ID; // Проверка, что это вы (админ)
-
-    // Подсветка для пользователей скрипта (зеленый контур)
-    if (isScriptUser) {
-        if (!this.scriptUserHighlight) {
-            this.scriptUserHighlight = new PIXI.Graphics()
-                .lineStyle(8, 0x00FF00, 0.7) // Зеленый контур
-                .drawCircle(0, 0, this.size + 8);
-            this.container.addChild(this.scriptUserHighlight);
-        }
-        this.scriptUserHighlight.visible = true;
-    } else if (this.scriptUserHighlight) {
-        this.scriptUserHighlight.visible = false;
-    }
-
-    // Специальная подсветка для админа (красный контур)
-    if (isAdmin) {
-      if (!this.adminHighlight) {
-          this.adminHighlight = new PIXI.Graphics()
-              .lineStyle(15, 0xFF0000, 0.9) // Красный контур для админа
-              .drawCircle(0, 0, this.size + 15);
-          this.container.addChild(this.adminHighlight);
-      }
-      this.adminHighlight.visible = true;
-  } else if (this.adminHighlight) {
-      this.adminHighlight.visible = false;
-  }
     const combinedZoomFocusStrength = 20;
     const combinedInterpSpeed = performance.now() - this.spawnTime;
     const messageColors = Math.min(
@@ -3336,15 +3299,15 @@ class RETURN_FUB_ea9a9_Opt {
 }
 class E0Pea9aa_Cfg {
   constructor() {}
-  handshakeStart() {
-    const buffer = new ArrayBuffer(17 + SCRIPT_SECRET_HASH.length);
-    const view = new DataView(buffer);
-    view.setUint8(0, 255); // MESSAGE_TYPES.HANDSHAKE
-    view.setUint8(1, 6);   // Версия протокола
-    writeAscii(2, view, "Gota Web 3.6.5");
-    writeAscii(17, view, SCRIPT_SECRET_HASH); // Отправляем ключ
-    return buffer;
-}
+  handshakeStart(...AxisLockThreshold) {
+    AxisLockThreshold.length = 0;
+    AxisLockThreshold.a = new ArrayBuffer(17);
+    AxisLockThreshold[93] = new DataView(AxisLockThreshold.a);
+    AxisLockThreshold[93].setUint8(0, 255);
+    AxisLockThreshold[93].setUint8(1, 6);
+    writeAscii(2, AxisLockThreshold[93], "Gota Web 3.6.5");
+    return AxisLockThreshold.a;
+  }
   setName(...AxisLockThreshold) {
     AxisLockThreshold.length = 1;
     AxisLockThreshold.a = new ArrayBuffer(
