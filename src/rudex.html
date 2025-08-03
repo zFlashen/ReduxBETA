@@ -308,7 +308,7 @@
                         </div>
                     </div>
                     <div id=account-content-container style=display:flex;flex-direction:column;gap:10px>
-                        <button id=btnModalGotaRedux><span class=spark__container><span class=spark></span> </span><span class=backdrop></span> <span class=text>Gota Redux (Cracked)</span></button>
+                        <button id=btnModalGotaRedux><span class=spark__container><span class=spark></span> </span><span class=backdrop></span> <span class=text>Gota Redux (Weyno)</span></button>
                         <div class="account-tab-content active" id=account1>
                             <div id=account-loader>
                                 <nord-spinner size=xl></nord-spinner>
@@ -380,7 +380,14 @@
                     <nord-button id=btnToggleServers size=icon style=--_n-button-border-radius:20px region=eu>Europe</nord-button>
                     <nord-button id=btnResetKeybinds size=icon style=--_n-button-border-radius:20px>Reset Keybinds</nord-button>
                     <nord-button id=btnResetOptions size=icon style=--_n-button-border-radius:20px>Reset Options</nord-button>
+                    <nord-button id=btnResetDiagonal size=icon style=--_n-button-border-radius:20px>Reset Diagonal</nord-button>
                     <div style=display:flex;gap:5px;justify-content:end>
+                        <nord-button id=btnDiagonal class=mainTabBtn size=icon square>
+                            <svg class="lucide lucide-bolt lucide-bolt-icon" fill=none stroke=currentColor stroke-linecap=round stroke-linejoin=round stroke-width=2 viewBox="0 0 24 24" xmlns=http://www.w3.org/2000/svg height=24 width=24>
+                                <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
+                                <circle cx=12 cy=12 r=4 />
+                            </svg>
+                        </nord-button>
                         <nord-button id=btnKeybinds class=mainTabBtn size=icon square>
                             <svg class="lucide lucide-keyboard lucide-keyboard-icon" fill=none stroke=currentColor stroke-linecap=round stroke-linejoin=round stroke-width=2 viewBox="0 0 24 24" xmlns=http://www.w3.org/2000/svg height=24 width=24>
                                 <path d="M10 8h.01" />
@@ -776,6 +783,37 @@
                         <div class=optionItem>
                             <div>FastFeed Mothership</div>
                             <nord-button id=kBotFastFeed class=keybinds-btn></nord-button>
+                        </div>
+                    </div>
+                </div>
+                <div class=main-right-panel id=main-diagonal style=display:none>
+                    <div class=options-container>
+                        <h3>Diagonal Options</h3>
+                
+                        <!-- Настройки клавиш, используя ту же структуру, что и в Core Actions -->
+                        <div class=optionItem>
+                            <div>Freeze Top Left</div>
+                            <div class=option-control>
+                                <nord-button id=freeze-topleft class=keybinds-btn></nord-button>
+                            </div>
+                        </div>
+                        <div class=optionItem>
+                            <div>Freeze Top Right</div>
+                            <div class=option-control>
+                                <nord-button id=freeze-topright class=keybinds-btn></nord-button>
+                            </div>
+                        </div>
+                        <div class=optionItem>
+                            <div>Freeze Bottom Left</div>
+                            <div class=option-control>
+                                <nord-button id=freeze-bottomleft class=keybinds-btn></nord-button>
+                            </div>
+                        </div>
+                        <div class=optionItem>
+                            <div>Freeze Bottom Right</div>
+                            <div class=option-control>
+                                <nord-button id=freeze-bottomright class=keybinds-btn></nord-button>
+                            </div>
                         </div>
                     </div>
                 </div>
