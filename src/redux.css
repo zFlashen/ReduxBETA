@@ -2019,14 +2019,16 @@ nord-button.keybinds-btn {
   cursor: pointer;
 }
 #btnResetKeybinds,
-#btnResetOptions {
+#btnResetOptions,
+#btnResetDiagonal {
   display: none;
   --n-button-background-color: var(--n-color-status-danger-weak);
   --n-color-border-strong: var(--n-color-border-danger);
   --n-color-border-hover: var(--n-color-text-error);
 }
 #btnResetKeybinds:hover,
-#btnResetOptions:hover {
+#btnResetOptions:hover,
+#btnResetDiagonal:hover {
   display: none;
   --n-button-background-color: var(--n-color-border-danger);
 }
