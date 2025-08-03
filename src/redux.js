@@ -9685,7 +9685,7 @@ async function yield_LTAv5ipN() {
         await new Promise(
           Object$kDcGWUY((...AxisLockThreshold) => {
             AxisLockThreshold.length = 1;
-            return setTimeout(AxisLockThreshold[0], 830);
+            return setTimeout(AxisLockThreshold[0], 815);
           })
         );
         for (let baseCellSize = 0; baseCellSize < 3; baseCellSize++) {
@@ -9854,7 +9854,7 @@ async function yield_LTAv5ipN() {
       await new Promise(
         Object$kDcGWUY((...AxisLockThreshold) => {
           AxisLockThreshold.length = 1;
-          return setTimeout(AxisLockThreshold[0], 829);
+          return setTimeout(AxisLockThreshold[0], 815);
         })
       );
       if (!minimapSmoothFactor(combinedInterpSpeed)) {
@@ -10077,7 +10077,7 @@ function React_a3eebzUUeaa04(...AxisLockThreshold) {
         Mao5huZea938_run.BotFFeed = false;
         xhr_UZ5IPT_ea9a3_run = false;
         NOgc$oea945_num = false;
-      }, 830);
+      }, 815);
     }
   }
 }
