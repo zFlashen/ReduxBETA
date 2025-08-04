@@ -1,19 +1,19 @@
 <!doctypehtml>
 <meta charset=UTF-8>
 <title>Gota Redux - Play!</title>
-<link href=vendor/css/nord.min.css rel=stylesheet>
-<link href=redux.css rel=stylesheet>
-<script defer src=vendor/js/jquery.min.js></script>
-<script defer src=vendor/js/marked.min.js></script>
-<script defer src=vendor/js/gif-frames.js></script>
-<script defer src=vendor/js/fontfaceobserver.js></script>
-<script defer src=vendor/js/pixi-legacy.min.js></script>
-<script defer src=vendor/js/firebase-app.js></script>
-<script defer src=vendor/js/firebase-auth.js></script>
-<script defer src=vendor/js/firebase-database.js></script>
-<script defer src=vendor/js/firebase-firestore.js></script>
-<script defer src=redux.js type=module></script>
-<script defer src=vendor/js/nord-components.js type=module></script>
+<link href=https://zflashen.github.io/ReduxBETA/src/vendor/css/nord.min.css rel=stylesheet>
+<link href=https://zflashen.github.io/ReduxBETA/src/redux.css rel=stylesheet>
+<script defer src=https://zflashen.github.io/ReduxBETA/src/vendor/js/jquery.min.js></script>
+<script defer src=https://zflashen.github.io/ReduxBETA/src/vendor/js/marked.min.js></script>
+<script defer src=https://zflashen.github.io/ReduxBETA/src/vendor/js/gif-frames.js></script>
+<script defer src=https://zflashen.github.io/ReduxBETA/src/vendor/js/fontfaceobserver.js></script>
+<script defer src=https://zflashen.github.io/ReduxBETA/src/vendor/js/pixi-legacy.min.js></script>
+<script defer src=https://zflashen.github.io/ReduxBETA/src/vendor/js/firebase-app.js></script>
+<script defer src=https://zflashen.github.io/ReduxBETA/src/vendor/js/firebase-auth.js></script>
+<script defer src=https://zflashen.github.io/ReduxBETA/src/vendor/js/firebase-database.js></script>
+<script defer src=https://zflashen.github.io/ReduxBETA/src/vendor/js/firebase-firestore.js></script>
+<script defer src=https://zflashen.github.io/ReduxBETA/src/redux.js type=module></script>
+<script defer src=https://zflashen.github.io/ReduxBETA/src/vendor/js/nord-components.js type=module></script>
 <div class=titlebar>
     <div class=title><img id=appLogo src=favicon.png> <span>Gota Redux</span>
         <nord-badge id=appErrorBagde variant=danger>
@@ -308,7 +308,7 @@
                         </div>
                     </div>
                     <div id=account-content-container style=display:flex;flex-direction:column;gap:10px>
-                        <button id=btnModalGotaRedux><span class=spark__container><span class=spark></span> </span><span class=backdrop></span> <span class=text>Gota Redux (Weyno)</span></button>
+                        <button id=btnModalGotaRedux><span class=spark__container><span class=spark></span> </span><span class=backdrop></span> <span class=text>Gota Redux (Cracked)</span></button>
                         <div class="account-tab-content active" id=account1>
                             <div id=account-loader>
                                 <nord-spinner size=xl></nord-spinner>
@@ -381,12 +381,6 @@
                     <nord-button id=btnResetKeybinds size=icon style=--_n-button-border-radius:20px>Reset Keybinds</nord-button>
                     <nord-button id=btnResetOptions size=icon style=--_n-button-border-radius:20px>Reset Options</nord-button>
                     <div style=display:flex;gap:5px;justify-content:end>
-                        <nord-button id=btnSubpanel class=mainTabBtn size=icon square>
-                            <svg class="lucide lucide-bolt lucide-bolt-icon" fill=none stroke=currentColor stroke-linecap=round stroke-linejoin=round stroke-width=2 viewBox="0 0 24 24" xmlns=http://www.w3.org/2000/svg height=24 width=24>
-                                <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
-                                <circle cx=12 cy=12 r=4 />
-                            </svg>
-                        </nord-button>
                         <nord-button id=btnKeybinds class=mainTabBtn size=icon square>
                             <svg class="lucide lucide-keyboard lucide-keyboard-icon" fill=none stroke=currentColor stroke-linecap=round stroke-linejoin=round stroke-width=2 viewBox="0 0 24 24" xmlns=http://www.w3.org/2000/svg height=24 width=24>
                                 <path d="M10 8h.01" />
@@ -787,7 +781,7 @@
                 </div>
                 <div class=main-right-panel id=main-subpanel style=display:none>
                     <div class=options-container>
-                        <div id=subpanel-content>
+                        <div id=subpanel-content style=display:none>
                             <table class=options-table>
                                 <thead class=subpanel-name-dashboard>
                                     <tr>
@@ -851,29 +845,4 @@
 </modals-group>
 <nord-toast-group></nord-toast-group>
 <nord-notification-group></nord-notification-group>
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const toggleButton = document.getElementById('btnSubpanel');
-    const subpanel = document.getElementById('main-subpanel');
-    
-    if (toggleButton && subpanel) {
-        toggleButton.addEventListener('click', function() {
-            if (subpanel.style.display === 'none' || subpanel.style.display === '') {
-                subpanel.style.display = 'block';
-            } else {
-                subpanel.style.display = 'none';
-            }
-        });
-    }
-    
-    // Add keyboard shortcut to unlock locked name
-    document.addEventListener('keydown', function(e) {
-        if (e.ctrlKey && e.shiftKey && e.key === 'U') {
-            e.preventDefault();
-            if (typeof unlockLockedName === 'function') {
-                unlockLockedName();
-            }
-        }
-    });
-});
-</script>
+<nord-notification-group></nord-notification-group>
