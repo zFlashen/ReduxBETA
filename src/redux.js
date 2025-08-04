@@ -5664,14 +5664,6 @@ function qKCwea9bc_div(...AxisLockThreshold) {
       overflow: "auto",
       extraBtn: "#btnResetKeybinds",
     },
-    "#btnSubpanel": {
-      id: "main-subpanel",
-      height: () => {
-        return XHReYHH$ea9c2_bool("eu");
-      },
-      overflow: "auto",
-      extraBtn: "#btnResetSubpanel",
-    },
   };
   Object.entries(drawMinimapInterval).forEach(
     ([AxisLockThreshold, minimapSmoothFactor]) => {
@@ -8422,16 +8414,6 @@ function Zqf9Dh(...AxisLockThreshold) {
   }
   VuerW6rI_ea93a_neq.lockedName = "";
   New_r0sJwVZ();
-  
-  // Function to unlock locked name and subpanel content for testing
-  window.unlockLockedName = function() {
-    If$sEyzqKbhea93f_Exec.subPanelOverride = true;
-    hVJea94b_Data = true;
-    $("#spLockedName").html("Unlocked Name");
-    $("#spExpiry").html("Never");
-    as_dX7WJBQ_ea9c4_mul();
-    console.log("Locked name and subpanel content unlocked!");
-  };
   $("#sRgbColor1").val(Mao5huZea938_run.sRgbColor1 || "#ffffff");
   $("#sRgbColor2").val(Mao5huZea938_run.sRgbColor2 || "#ffffff");
   $("#rRgbSpeed").val(Mao5huZea938_run.rRgbSpeed);
@@ -9703,7 +9685,7 @@ async function yield_LTAv5ipN() {
         await new Promise(
           Object$kDcGWUY((...AxisLockThreshold) => {
             AxisLockThreshold.length = 1;
-            return setTimeout(AxisLockThreshold[0], 830);
+            return setTimeout(AxisLockThreshold[0], 815);
           })
         );
         for (let baseCellSize = 0; baseCellSize < 3; baseCellSize++) {
@@ -9872,7 +9854,7 @@ async function yield_LTAv5ipN() {
       await new Promise(
         Object$kDcGWUY((...AxisLockThreshold) => {
           AxisLockThreshold.length = 1;
-          return setTimeout(AxisLockThreshold[0], 829);
+          return setTimeout(AxisLockThreshold[0], 815);
         })
       );
       if (!minimapSmoothFactor(combinedInterpSpeed)) {
@@ -10095,7 +10077,7 @@ function React_a3eebzUUeaa04(...AxisLockThreshold) {
         Mao5huZea938_run.BotFFeed = false;
         xhr_UZ5IPT_ea9a3_run = false;
         NOgc$oea945_num = false;
-      }, 830);
+      }, 815);
     }
   }
 }
