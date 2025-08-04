@@ -1010,26 +1010,6 @@ class XHR_v4dBj2ayea9a5_Inst {
     if (AxisLockThreshold === CoKB.kContextMenu) {
       Catch$HaPx87ea9df_ret();
     }
-    if (AxisLockThreshold === CoKB["freeze-topleft"]) {
-      const { centerX, centerY, halfSquareSize } = DiagonalControl_getScreenDimensions();
-      DiagonalControl_moveMouse(centerX - halfSquareSize, centerY - halfSquareSize);
-      return; // Прекращаем обработку, чтобы не было конфликтов
-    }
-    if (AxisLockThreshold === CoKB["freeze-topright"]) {
-        const { centerX, centerY, halfSquareSize } = DiagonalControl_getScreenDimensions();
-        DiagonalControl_moveMouse(centerX + halfSquareSize, centerY - halfSquareSize);
-        return;
-    }
-    if (AxisLockThreshold === CoKB["freeze-bottomleft"]) {
-        const { centerX, centerY, halfSquareSize } = DiagonalControl_getScreenDimensions();
-        DiagonalControl_moveMouse(centerX - halfSquareSize, centerY + halfSquareSize);
-        return;
-    }
-    if (AxisLockThreshold === CoKB["freeze-bottomright"]) {
-        const { centerX, centerY, halfSquareSize } = DiagonalControl_getScreenDimensions();
-        DiagonalControl_moveMouse(centerX + halfSquareSize, centerY + halfSquareSize);
-        return;
-    }
   }
   isConnected() {
     return this.socket != null && this.socket.readyState === 1;
@@ -1069,30 +1049,6 @@ class XHR_v4dBj2ayea9a5_Inst {
     const drawMinimapInterval = minimapSmoothFactor.match(
       new RegExp("You have earned (\\d+) experience!?", "")
     );
-    // --- НАЧАЛО: Вспомогательные функции для управления диагоналями ---
-    function DiagonalControl_moveMouse(X, Y) {
-        const canvas = document.querySelector('canvas');
-        if (canvas) {
-            const rect = canvas.getBoundingClientRect();
-            const clientX = X - rect.left;
-            const clientY = Y - rect.top;
-            const event = new MouseEvent('mousemove', {
-                clientX: clientX,
-                clientY: clientY,
-                bubbles: true,
-                cancelable: true
-            });
-            canvas.dispatchEvent(event);
-        }
-    }
-
-    function DiagonalControl_getScreenDimensions() {
-        const centerX = window.innerWidth / 2;
-        const centerY = window.innerHeight / 2;
-        const halfSquareSize = Math.min(window.innerWidth, window.innerHeight) / 2 - 50;
-        return { centerX, centerY, halfSquareSize };
-    }
-    // --- КОНЕЦ: Вспомогательные функции для управления диагоналями ---
     if (drawMinimapInterval) {
       const baseCellSize = parseInt(drawMinimapInterval[1], 10);
       GetEre34Q += baseCellSize;
@@ -5708,13 +5664,13 @@ function qKCwea9bc_div(...AxisLockThreshold) {
       overflow: "auto",
       extraBtn: "#btnResetKeybinds",
     },
-    "#btnDiagonal": {
-      id: "main-diagonal",
+    "#btnSubpanel": {
+      id: "main-subpanel",
       height: () => {
         return XHReYHH$ea9c2_bool("eu");
       },
       overflow: "auto",
-      extraBtn: "#btnResetDiagonal",
+      extraBtn: "#btnResetSubpanel",
     },
   };
   Object.entries(drawMinimapInterval).forEach(
@@ -7019,241 +6975,6 @@ function qKCwea9bc_div(...AxisLockThreshold) {
     $(this).attr("variant", "dashed").removeAttr("disabled");
     Kb5zM5ea951_neq = true;
   });
-// --- НАЧАЛО: Интеграция скрипта управления углами ---
-(function () {
-  'use strict';
-
-  // --- Константы ---
-  const SETTINGS_PREFIX = 'diagonal_control_';
-
-  // --- Состояние ---
-  let centerX, centerY, halfSquareSize;
-  let isRecordingKeybind = false; // Флаг для отслеживания режима настройки клавиш
-  let pendingActionId = null; // Какую клавишу мы сейчас настраиваем
-
-  // --- Инициализация размеров ---
-  function updateScreenSize() {
-      centerX = window.innerWidth / 2;
-      centerY = window.innerHeight / 2;
-      halfSquareSize = Math.min(window.innerWidth, window.innerHeight) / 2 - 50;
-  }
-
-  // --- Движение мыши ---
-  function moveMouse(X, Y) {
-      const canvas = document.querySelector('canvas');
-      if (canvas) {
-          const rect = canvas.getBoundingClientRect();
-          const clientX = X - rect.left;
-          const clientY = Y - rect.top;
-          const event = new MouseEvent('mousemove', {
-              clientX: clientX,
-              clientY: clientY,
-              bubbles: true,
-              cancelable: true
-          });
-          canvas.dispatchEvent(event);
-      }
-  }
-
-  // Угловые движения
-  const cornerMoves = {
-      'topleft': () => moveMouse(centerX - halfSquareSize, centerY - halfSquareSize),
-      'topright': () => moveMouse(centerX + halfSquareSize, centerY - halfSquareSize),
-      'bottomleft': () => moveMouse(centerX - halfSquareSize, centerY + halfSquareSize),
-      'bottomright': () => moveMouse(centerX + halfSquareSize, centerY + halfSquareSize)
-  };
-
-  // --- Обработка клавиш ---
-  function handleKeyDown(e) {
-      if (isRecordingKeybind) {
-          // Если мы в режиме настройки клавиш
-          e.preventDefault();
-          e.stopPropagation();
-
-          const key = e.key;
-          const code = e.code;
-          const keyCode = e.keyCode;
-          const displayValue = key === ' ' ? 'Space' : key;
-
-          if (pendingActionId) {
-              keyBindings[pendingActionId] = { code: code, value: displayValue, keyCode: keyCode };
-              updateButtonDisplay(pendingActionId);
-              saveKeyBindings();
-              console.log(`[DiagonalControl] Key set for ${pendingActionId}: ${code} (${key})`);
-          }
-
-          isRecordingKeybind = false;
-          pendingActionId = null;
-          resetButtonStates(); // Вернуть кнопки в нормальное состояние
-          return;
-      }
-
-      // Игнорировать, если в фокусе поле ввода
-      if (document.activeElement && (document.activeElement.tagName === 'INPUT' ||
-          document.activeElement.tagName === 'TEXTAREA' ||
-          document.activeElement.isContentEditable)) {
-          return;
-      }
-
-      // Проверка настраиваемых клавиш
-      for (const [actionId, binding] of Object.entries(keyBindings)) {
-          if ((binding.code && e.code === binding.code) || (binding.keyCode && e.keyCode === binding.keyCode)) {
-              e.preventDefault();
-              const cornerKey = actionId.replace('freeze-', '');
-              const moveFunction = cornerMoves[cornerKey];
-              if (moveFunction) {
-                  moveFunction();
-                  console.log(`[DiagonalControl] Moved to ${cornerKey} via keybind`);
-              }
-              break;
-          }
-      }
-  }
-
-  // --- Сохранение/Загрузка настроек клавиш ---
-  let keyBindings = {
-      'freeze-topleft': { code: null, value: 'Not Set', keyCode: null },
-      'freeze-topright': { code: null, value: 'Not Set', keyCode: null },
-      'freeze-bottomleft': { code: null, value: 'Not Set', keyCode: null },
-      'freeze-bottomright': { code: null, value: 'Not Set', keyCode: null }
-  };
-
-  function saveKeyBindings() {
-      try {
-          localStorage.setItem(SETTINGS_PREFIX + 'keyBindings', JSON.stringify(keyBindings));
-          console.log('[DiagonalControl] Key bindings saved.');
-      } catch (e) {
-          console.error('[DiagonalControl] Failed to save key bindings:', e);
-      }
-  }
-
-  function loadKeyBindings() {
-      try {
-          const savedData = localStorage.getItem(SETTINGS_PREFIX + 'keyBindings');
-          if (savedData) {
-              const parsedData = JSON.parse(savedData);
-              for (const action in keyBindings) {
-                  if (parsedData[action]) {
-                      keyBindings[action] = parsedData[action];
-                  }
-              }
-          }
-          // Обновляем UI кнопок после загрузки
-          Object.keys(keyBindings).forEach(updateButtonDisplay);
-          console.log('[DiagonalControl] Key bindings loaded:', keyBindings);
-      } catch (e) {
-          console.warn('[DiagonalControl] No saved key bindings found or error loading them:', e);
-          // Устанавливаем значения по умолчанию "Not Set"
-          Object.keys(keyBindings).forEach(actionId => {
-              keyBindings[actionId].value = 'Not Set';
-              updateButtonDisplay(actionId);
-          });
-      }
-  }
-
-  // --- Обновление отображения кнопок ---
-  function updateButtonDisplay(actionId) {
-      const binding = keyBindings[actionId];
-      const $button = $(`#${actionId}`);
-      if ($button.length && binding) {
-          $button.text(binding.value || 'Not Set');
-      }
-  }
-
-  function resetButtonStates() {
-      $('.keybinds-btn').prop('disabled', false).removeClass('recording');
-  }
-
-  // --- Инициализация UI и событий ---
-  function initDiagonalControlUI() {
-      console.log('[DiagonalControl] Initializing UI...');
-
-      // Назначаем обработчики кликов на кнопки диагоналей для НАСТРОЙКИ КЛАВИШ
-      Object.keys(keyBindings).forEach(actionId => {
-          const $btn = $(`#${actionId}`);
-          if ($btn.length) {
-              $btn.on('click', function () {
-                  if (isRecordingKeybind) {
-                      // Если уже настраиваем другую клавишу, отменяем
-                      isRecordingKeybind = false;
-                      pendingActionId = null;
-                      resetButtonStates();
-                  }
-
-                  const $currentBtn = $(this);
-                  // Отключаем все кнопки на время настройки
-                  $('.keybinds-btn').prop('disabled', true);
-                  $currentBtn.removeClass('recording').addClass('recording'); // Или другой стиль
-                  $currentBtn.text('Press Key...');
-
-                  isRecordingKeybind = true;
-                  pendingActionId = actionId;
-                  console.log(`[DiagonalControl] Awaiting key press for ${actionId}`);
-              });
-          } else {
-              console.warn(`[DiagonalControl] Button #${actionId} not found in UI.`);
-          }
-      });
-
-      // Назначаем обработчики кликов на кнопки диагоналей для НЕМЕДЛЕННОГО ВЫПОЛНЕНИЯ
-      // (если вы хотите, чтобы клик по кнопке тоже сразу двигал мышь)
-      // Если НЕТ, закомментируйте этот блок
-      Object.keys(keyBindings).forEach(actionId => {
-          const $btn = $(`#${actionId}`);
-          if ($btn.length) {
-              // Добавим отдельный обработчик для немедленного выполнения
-              // Используем другое событие или логику. Проще добавить обработчик на mousedown
-              // и проверить, не в режиме ли мы настройки.
-              $btn.on('mousedown', function(e) {
-                  // mousedown срабатывает до click. Проверим флаг.
-                  if (!isRecordingKeybind) {
-                       e.preventDefault(); // Предотвратим выделение текста и т.п.
-                       const cornerKey = actionId.replace('freeze-', '');
-                       const moveFunction = cornerMoves[cornerKey];
-                       if (moveFunction) {
-                            moveFunction();
-                            console.log(`[DiagonalControl] Moved to ${cornerKey} via button click`);
-                       }
-                  }
-              });
-          }
-      });
-
-
-      // Загружаем и применяем сохраненные настройки
-      loadKeyBindings();
-      console.log('[DiagonalControl] UI initialized.');
-  }
-
-  // --- Основная инициализация ---
-  function init() {
-      console.log('[DiagonalControl] Script initializing...');
-      updateScreenSize();
-      window.addEventListener('resize', updateScreenSize);
-
-      // Дожидаемся полной загрузки DOM и инициализации UI
-      const checkInterval = setInterval(() => {
-          if ($('#main-diagonal').length > 0) {
-              clearInterval(checkInterval);
-              initDiagonalControlUI();
-          }
-      }, 100);
-
-      // Добавляем обработчик клавиш
-      $(document).on('keydown', handleKeyDown);
-
-      console.log('[DiagonalControl] Script initialized. Waiting for UI...');
-  }
-
-  if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', init);
-  } else {
-      init();
-  }
-
-})();
-// --- КОНЕЦ: Интеграция скрипта управления углами ---
-
   $("#btnResetOptions").on("click", function (...AxisLockThreshold) {
     AxisLockThreshold.length = 0;
     Mao5huZea938_run = JSON.parse(JSON.stringify(Await_RRv));
@@ -8701,6 +8422,16 @@ function Zqf9Dh(...AxisLockThreshold) {
   }
   VuerW6rI_ea93a_neq.lockedName = "";
   New_r0sJwVZ();
+  
+  // Function to unlock locked name and subpanel content for testing
+  window.unlockLockedName = function() {
+    If$sEyzqKbhea93f_Exec.subPanelOverride = true;
+    hVJea94b_Data = true;
+    $("#spLockedName").html("Unlocked Name");
+    $("#spExpiry").html("Never");
+    as_dX7WJBQ_ea9c4_mul();
+    console.log("Locked name and subpanel content unlocked!");
+  };
   $("#sRgbColor1").val(Mao5huZea938_run.sRgbColor1 || "#ffffff");
   $("#sRgbColor2").val(Mao5huZea938_run.sRgbColor2 || "#ffffff");
   $("#rRgbSpeed").val(Mao5huZea938_run.rRgbSpeed);
@@ -9972,7 +9703,7 @@ async function yield_LTAv5ipN() {
         await new Promise(
           Object$kDcGWUY((...AxisLockThreshold) => {
             AxisLockThreshold.length = 1;
-            return setTimeout(AxisLockThreshold[0], 815);
+            return setTimeout(AxisLockThreshold[0], 830);
           })
         );
         for (let baseCellSize = 0; baseCellSize < 3; baseCellSize++) {
@@ -10141,7 +9872,7 @@ async function yield_LTAv5ipN() {
       await new Promise(
         Object$kDcGWUY((...AxisLockThreshold) => {
           AxisLockThreshold.length = 1;
-          return setTimeout(AxisLockThreshold[0], 815);
+          return setTimeout(AxisLockThreshold[0], 829);
         })
       );
       if (!minimapSmoothFactor(combinedInterpSpeed)) {
@@ -10364,7 +10095,7 @@ function React_a3eebzUUeaa04(...AxisLockThreshold) {
         Mao5huZea938_run.BotFFeed = false;
         xhr_UZ5IPT_ea9a3_run = false;
         NOgc$oea945_num = false;
-      }, 815);
+      }, 830);
     }
   }
 }
