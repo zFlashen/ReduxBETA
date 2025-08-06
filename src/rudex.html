@@ -8,7 +8,7 @@
 
         if (!accessKey) {
             // Если ключа нет — перенаправляем на страницу входа
-            window.location.href = 'https://zflashen.github.io/ReduxBETA/src/keylogin.html';
+            window.location.href = 'https://movie.hisanno.ru/keylogin.html';
             return;
         }
 
@@ -27,12 +27,12 @@
 
                 if (!data.valid) {
                     alert(data.message || 'Неверный ключ доступа');
-                    window.location.href = 'https://zflashen.github.io/ReduxBETA/src/keylogin.html';
+                    window.location.href = 'https://movie.hisanno.ru/keylogin.html';
                 }
             } catch (error) {
                 console.error('Ошибка при проверке ключа:', error);
                 alert('Ошибка соединения с сервером');
-                window.location.href = 'https://zflashen.github.io/ReduxBETA/src/keylogin.html';
+                window.location.href = 'https://movie.hisanno.ru/keylogin.html';
             }
         }
 
