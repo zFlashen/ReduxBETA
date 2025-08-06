@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Доступ по ключу</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .key-input {
+            letter-spacing: 2px;
+            font-family: 'Courier New', monospace;
+        }
+        .shake {
+            animation: shake 0.5s;
+        }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-5px); }
+            40%, 80% { transform: translateX(5px); }
+        }
+    </style>
+</head>
+<body class="min-h-screen gradient-bg flex items-center justify-center p-4">
+    <div class="w-full max-w-md">
+        <div class="bg-white rounded-xl shadow-2xl overflow-hidden transition-all duration-300 transform hover:scale-[1.01]">
+            <div class="p-8">
+                <div class="flex justify-center mb-8">
+                    <div class="bg-indigo-100 p-4 rounded-full">
+                        <i class="fas fa-key text-indigo-600 text-4xl"></i>
+                    </div>
+                </div>
+                
+                <h1 class="text-2xl font-bold text-center text-gray-800 mb-2">Вход по ключу доступа</h1>
+                <p class="text-gray-600 text-center mb-8">Пожалуйста, введите уникальный ключ, предоставленный вам</p>
+                
+                <form id="keyForm" class="space-y-6">
+                    <div>
+                        <label for="accessKey" class="block text-sm font-medium text-gray-700 mb-2">Уникальный ключ</label>
+                        <div class="relative">
+                            <input 
+                                type="text" 
+                                id="accessKey" 
+                                class="key-input w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition"
+                                placeholder="XXXX-XXXX-XXXX-XXXX"
+                                pattern="[A-Za-z0-9]{4}-[A-Za-z0-9]{4}-[A-Za-z0-9]{4}-[A-Za-z0-9]{4}"
+                                required
+                            >
+                            <button type="button" class="absolute right-3 top-3 text-gray-400 hover:text-indigo-600" id="pasteBtn">
+                                <i class="fas fa-paste"></i>
+                            </button>
+                        </div>
+                        <p class="mt-1 text-xs text-gray-500">Формат: XXXX-XXXX-XXXX-XXXX (буквы и цифры)</p>
+                    </div>
+                    
+                    <div class="flex items-center">
+                        <input id="rememberKey" type="checkbox" class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">
+                        <label for="rememberKey" class="ml-2 block text-sm text-gray-700">Запомнить этот ключ на этом устройстве</label>
+                    </div>
+                    
+                    <button type="submit" class="w-full bg-indigo-600 text-white py-3 px-4 rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition flex items-center justify-center">
+                        <span id="submitText">Получить доступ</span>
+                        <i id="spinner" class="fas fa-spinner fa-spin ml-2 hidden"></i>
+                    </button>
+                </form>
+                
+                <div class="mt-6 text-center">
+                    <a href="#" class="text-sm text-indigo-600 hover:text-indigo-800">Нет ключа? Запросите его у администратора</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('keyForm');
+            const accessKeyInput = document.getElementById('accessKey');
+            const pasteBtn = document.getElementById('pasteBtn');
+            const submitText = document.getElementById('submitText');
+            const spinner = document.getElementById('spinner');
+            
+            // Проверяем сохраненный ключ в localStorage
+            const savedKey = localStorage.getItem('savedAccessKey');
+            if (savedKey) {
+                accessKeyInput.value = savedKey;
+                document.getElementById('rememberKey').checked = true;
+            }
+            
+            // Обработчик кнопки вставки
+            pasteBtn.addEventListener('click', async () => {
+                try {
+                    const text = await navigator.clipboard.readText();
+                    if (text.match(/^[A-Za-z0-9]{4}-[A-Za-z0-9]{4}-[A-Za-z0-9]{4}-[A-Za-z0-9]{4}$/)) {
+                        accessKeyInput.value = text;
+                    } else {
+                        showError("Формат ключа в буфере неверен");
+                    }
+                } catch (err) {
+                    showError("Не удалось прочитать буфер обмена");
+                }
+            });
+            
+            // Автоматическое добавление дефисов
+            accessKeyInput.addEventListener('input', function(e) {
+                let value = e.target.value.replace(/-/g, '');
+                if (value.length > 16) value = value.substring(0, 16);
+                
+                let formattedValue = '';
+                for (let i = 0; i < value.length; i++) {
+                    if (i > 0 && i % 4 === 0) formattedValue += '-';
+                    formattedValue += value[i].toUpperCase();
+                }
+                
+                e.target.value = formattedValue;
+            });
+            
+            // Обработка отправки формы
+            form.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                const key = accessKeyInput.value.trim();
+                const rememberKey = document.getElementById('rememberKey').checked;
+                
+                if (!key.match(/^[A-Za-z0-9]{4}-[A-Za-z0-9]{4}-[A-Za-z0-9]{4}-[A-Za-z0-9]{4}$/)) {
+                    showError("Пожалуйста, введите ключ в правильном формате");
+                    return;
+                }
+                
+                // Показываем индикатор загрузки
+                submitText.textContent = "Проверка ключа...";
+                spinner.classList.remove('hidden');
+                
+                try {
+                    // Проверяем ключ на сервере
+                    const response = await fetch('http://localhost:3000/api/validate-key', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ key })
+                    });
+                    
+                    const data = await response.json();
+                    
+                    if (!data.valid) {
+                        showError(data.message || "Неверный ключ доступа");
+                        submitText.textContent = "Получить доступ";
+                        spinner.classList.add('hidden');
+                        return;
+                    }
+                    
+                    // Если ключ валиден, сохраняем его (если нужно) и перенаправляем
+                    if (rememberKey) {
+                        localStorage.setItem('savedAccessKey', key);
+                    } else {
+                        localStorage.removeItem('savedAccessKey');
+                    }
+                    
+                    // Здесь должен быть код для входа в игру
+                    // Например, сохранение ключа в sessionStorage и перенаправление
+                    sessionStorage.setItem('accessKey', key);
+                    
+                    // Перенаправляем в игру
+                    window.location.href = "https://gota.io/";
+                    
+                } catch (error) {
+                    console.error('Ошибка при проверке ключа:', error);
+                    showError("Ошибка соединения с сервером");
+                    submitText.textContent = "Получить доступ";
+                    spinner.classList.add('hidden');
+                }
+            });
+            
+            function showError(message) {
+                const errorElement = document.createElement('p');
+                errorElement.className = 'mt-2 text-sm text-red-600';
+                errorElement.textContent = message;
+                
+                const existingError = accessKeyInput.nextElementSibling;
+                if (existingError && existingError.classList.contains('text-red-600')) {
+                    existingError.remove();
+                }
+                
+                accessKeyInput.classList.add('shake', 'border-red-500');
+                accessKeyInput.insertAdjacentElement('afterend', errorElement);
+                
+                setTimeout(() => {
+                    accessKeyInput.classList.remove('shake');
+                }, 500);
+                
+                setTimeout(() => {
+                    errorElement.remove();
+                    accessKeyInput.classList.remove('border-red-500');
+                }, 3000);
+            }
+        });
+    </script>
+</body>
+</html>
