@@ -1,6 +1,45 @@
 <!doctypehtml>
 <meta charset=UTF-8>
 <title>Gota Redux - Play!</title>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Проверяем, есть ли ключ в sessionStorage
+        const accessKey = sessionStorage.getItem('accessKey');
+
+        if (!accessKey) {
+            // Если ключа нет — перенаправляем на страницу входа
+            window.location.href = 'http://movie.hisanno.ru/key-auth-system/public/keylogin.html';
+            return;
+        }
+
+        // Если ключ есть, отправляем его на сервер для проверки
+        async function validateKey() {
+            try {
+                const response = await fetch('http://localhost:3000/api/validate-key', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ key: accessKey })
+                });
+
+                const data = await response.json();
+
+                if (!data.valid) {
+                    alert(data.message || 'Неверный ключ доступа');
+                    window.location.href = 'http://movie.hisanno.ru/key-auth-system/public/keylogin.html';
+                }
+            } catch (error) {
+                console.error('Ошибка при проверке ключа:', error);
+                alert('Ошибка соединения с сервером');
+                window.location.href = 'http://movie.hisanno.ru/key-auth-system/public/keylogin.html';
+            }
+        }
+
+        // Проверяем ключ
+        validateKey();
+    });
+</script>
 <link href=https://zflashen.github.io/ReduxBETA/src/vendor/css/nord.min.css rel=stylesheet>
 <link href=https://zflashen.github.io/ReduxBETA/src/redux.css rel=stylesheet>
 <script defer src=https://zflashen.github.io/ReduxBETA/src/vendor/js/jquery.min.js></script>
