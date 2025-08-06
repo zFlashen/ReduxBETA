@@ -229,9 +229,6 @@ export function injectShadowStyle(selector, css, FN$mlRRQQ729e9 = "true") {
   }, 0x32);
 }
 export function initializeNord() {
-  $("#gotaReduxContent")[bAlR_V729ea[0x2]].innerHTML = marked.parse(
-    '## Welcome to the Gota Redux Beta!\n\n  Thank you for being a part of this! Gota Redux is a ground-up redesign aimed at creating the single best way to play the game. We\'ve obsessed over every detail to build a client that is powerful, performant, and intuitive.\n\n  ### Beta Information\n  This is a **pre-release build** for testing purposes. Your feedback is invaluable. Please note that some surprise features are held back for the official launch!\n  \n  <div style="margin-top: 20px; display: flex; justify-content: center; gap: 15px;">\n    <a href="https://rewrkd.vercel.app/projects/gota-redux" target="_blank" style="color: var(--n-color-text-link); text-decoration: none;">Learn More</a>\n    <span style="opacity: 0.5;">\u2022</span>\n    <a href="https://discord.gg/YjzhKEkFYv" target="_blank" style="color: var(--n-color-text-link); text-decoration: none;">Report Bugs on Discord</a>\n  </div>\n'
-  );
   injectShadowStyle(
     "nord-input",
     ".n-input:focus{box-shadow:none!important}",
@@ -278,3 +275,4 @@ export function initializeNord() {
     "autocomplete-popout"
   );
 }
+
