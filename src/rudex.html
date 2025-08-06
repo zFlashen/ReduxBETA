@@ -1,45 +1,6 @@
 <!doctypehtml>
 <meta charset=UTF-8>
-<title>Gota Redux - Play!!!</title>
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        // Проверяем, есть ли ключ в sessionStorage
-        const accessKey = sessionStorage.getItem('accessKey');
-
-        if (!accessKey) {
-            // Если ключа нет — перенаправляем на страницу входа
-            window.location.href = 'https://movie.hisanno.ru/keylogin.html';
-            return;
-        }
-
-        // Если ключ есть, отправляем его на сервер для проверки
-        async function validateKey() {
-            try {
-                const response = await fetch('http://localhost:3000/api/validate-key', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ key: accessKey })
-                });
-
-                const data = await response.json();
-
-                if (!data.valid) {
-                    alert(data.message || 'Неверный ключ доступа');
-                    window.location.href = 'https://movie.hisanno.ru/keylogin.html';
-                }
-            } catch (error) {
-                console.error('Ошибка при проверке ключа:', error);
-                alert('Ошибка соединения с сервером');
-                window.location.href = 'https://movie.hisanno.ru/keylogin.html';
-            }
-        }
-
-        // Проверяем ключ
-        validateKey();
-    });
-</script>
+<title>Gota Redux - Play!</title>
 <link href=https://zflashen.github.io/ReduxBETA/src/vendor/css/nord.min.css rel=stylesheet>
 <link href=https://zflashen.github.io/ReduxBETA/src/redux.css rel=stylesheet>
 <script defer src=https://zflashen.github.io/ReduxBETA/src/vendor/js/jquery.min.js></script>
@@ -873,6 +834,12 @@
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+    <div class=modal-overlay id=aboutModal>
+        <div class=modal-content>
+            <nord-banner variant=warning>Maintained by <a href=//github.com/dev-onyx target=_blank style=color:var(--n-color-text-link)>dev-onyx</a>. This is a pre-release client intended for beta testers and developers. Please maintain confidentiality.</nord-banner>
+            <div id=gotaReduxContent></div>
         </div>
     </div>
 </modals-group>
