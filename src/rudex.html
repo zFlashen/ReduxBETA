@@ -1,45 +1,6 @@
 <!doctypehtml>
 <meta charset=UTF-8>
 <title>Gota Redux - Play!</title>
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        // Проверяем, есть ли ключ в sessionStorage
-        const accessKey = sessionStorage.getItem('accessKey');
-
-        // Проверяем, есть ли ключ в localStorage
-    if (!localStorage.getItem('savedAccessKey')) {
-        // Если нет — перенаправляем на login
-        window.location.href = 'https://movie.hisanno.ru/keylogin.html';
-    }
-
-        // Если ключ есть, отправляем его на сервер для проверки
-        async function validateKey() {
-            try {
-                const response = await fetch('http://localhost:3000/api/validate-key', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ key: accessKey })
-                });
-
-                const data = await response.json();
-
-                if (!data.valid) {
-                    alert(data.message || 'Неверный ключ доступа');
-                    window.location.href = 'https://movie.hisanno.ru/keylogin.html';
-                }
-            } catch (error) {
-                console.error('Ошибка при проверке ключа:', error);
-                alert('Ошибка соединения с сервером');
-                window.location.href = 'https://movie.hisanno.ru/keylogin.html';
-            }
-        }
-
-        // Проверяем ключ
-        validateKey();
-    });
-</script>
 <link href=vendor/css/nord.min.css rel=stylesheet>
 <link href=redux.css rel=stylesheet>
 <script defer src=vendor/js/jquery.min.js></script>
