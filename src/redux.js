@@ -3305,7 +3305,7 @@ class E0Pea9aa_Cfg {
     AxisLockThreshold[93] = new DataView(AxisLockThreshold.a);
     AxisLockThreshold[93].setUint8(0, 255);
     AxisLockThreshold[93].setUint8(1, 6);
-    writeAscii(2, AxisLockThreshold[93], "Gota Web 3.6.5");
+    writeAscii(2, AxisLockThreshold[93], "Gota Web 3.7.2");
     return AxisLockThreshold.a;
   }
   setName(...AxisLockThreshold) {
